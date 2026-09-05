@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learning GPS</title>
+</head>
+
+<body>
+    <h1>Learning GPS!</h1>
+
+    <form method="POST" action="/analyze">
+    
+        <h2>Where do you want to go?</h2>
+        <input
+            type="radio"
+            id="ai_engineer"
+            name="goal"
+            value="AI Engineer"
+            required
+        >
+        <label for="ai_engineer">
+            🤖 AI Engineer
+        </label>
+        <br><br>
+
+        <input
+            type="radio"
+            id="cybersecurity"
+            name="goal"
+            value="Cybersecurity"
+            required
+        >
+        <label for="cybersecurity">
+            🔐 Cybersecurity
+        </label>
+        <br><br>
+
+        <input
+            type="radio"
+            id="backend"
+            name="goal"
+            value="Backend Developer"
+            required
+        >
+        <label for="backend">
+            ⚙️ Backend Developer
+        </label>
+        <br><br>
+
+        <input
+            type="radio"
+            id="data_analyst"
+            name="goal"
+            value="Data Analyst"
+            required
+        >
+        <label for="data_analyst">
+            📊 Data Analyst
+        </label>
+        <br><br>
+
+        <input
+            type="radio"
+            id="custom"
+            name="goal"
+            value="Custom Path"
+            required
+        >
+        <label for="custom">
+            ✨ Create My Own Path
+        </label>
+        
+        <hr>
+
+        <h2>Where are you now?</h2>
+    
+        <p>
+            Tell Learning GPS what you have learned so far.
+        </p>
+
+        <textarea
+            name="learning_story"
+            placeholder="Example: I have learned Python basics, loops, and functions. I haven't built many projects yet..."
+            rows="10"
+            cols="60">
+        </textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Analyze My Path
+        </button>
+
+
+    </form>
+</body>
+</html>

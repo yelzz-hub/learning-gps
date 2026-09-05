@@ -1,0 +1,99 @@
+{
+    "goal": "AI Engineer",
+
+    "stages": [
+        {
+            "id": 0,
+            "name": "Starting Point",
+            "skills": []
+        },
+
+        {
+            "id": 1,
+            "name": "Python Fundamentals",
+            "skills": [
+                "Variables",
+                "Data Types",
+                "Conditions",
+                "Loops",
+                "Functions",
+                "Lists",
+                "Dictionaries"
+            ]
+        },
+
+        {
+            "id": 2,
+            "name": "Python Fundamentals",
+            "skills": [
+                "OOP",
+                "Modules",
+                "File Handling",
+                "Exception Handling",
+                "APIs"
+            ]
+        },
+
+        {
+            "id": 3,
+            "name": "Python Project Building",
+            "skills": [
+                "Project Structure",
+                "Using Functions in Projects",
+                "Using Classes in Projects",
+                "Working with APIs",
+                "Reading and Writing Files",
+                "Debugging"
+            ]
+        },
+
+        {
+            "id": 4,
+            "name": "Data Fundamentals",
+            "skills": [
+                "CSV",
+                "JSON",
+                "Data Structures",
+                "Basic Data Handling"
+            ]
+        },
+
+        {
+            "id": 5,
+            "name": "Data Analysis",
+            "skills": [
+                "Pandas",
+                "NumPy",
+                "Data Cleaning",
+                "Data Visualization"
+            ]
+        },
+
+        {
+            "id": 6,
+            "name": "Machine Learning",
+            "skills": [
+                "Supervised Learning",
+                "Unsupervised Learning",
+                "Model Training",
+                "Model Evaluation"
+            ]
+        },
+
+        {
+            "id": 7,
+            "name": "Deep Learning",
+            "skills": [
+                "Neural Networks",
+                "Deep Learning Frameworks",
+                "Training Neural Networks"
+            ]
+        },
+
+        {
+            "id": 8,
+            "name": "AI Engineer",
+            "skills": []
+        }
+    ]
+}
