@@ -19,12 +19,15 @@ def analyze():
     goal = request.form["goal"]
 
     learning_story = request.form["learning_story"]
+    learning_map = load_learning_map()
+
+    if goal == learning_map["goal"]:
+        print("Goal found!")
 
     return render_template(
         "result.html",
         goal=goal,
-        learning_story=learning_story
+        learning_story=learning_story,
+        learning_map=learning_map
     )
 
-learning_map = load_learning_map()
-print(learning_map)

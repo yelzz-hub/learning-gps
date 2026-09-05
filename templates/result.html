@@ -17,9 +17,27 @@
 
     <hr>
 
-    <p>
-        Your learning path analysis will appear here.
-    </p>
+    <h2>Your Learning Map</h2>
+
+    {% for stage in learning_map["stages"] %}
+
+    <h3>
+        Stage {{ stage["id"]}}: {{ stage["name"] }}
+    </h3>
+
+    {% if stage["skills"] %}
+
+        <ul>
+            {% for skill in stage["skills"] %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+            
+        </ul>
     
+    {% endif %}
+
+{% endfor %}
+
+
 </body>
 </html>
