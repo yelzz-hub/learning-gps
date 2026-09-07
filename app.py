@@ -48,6 +48,16 @@ def find_current_stage(stage_scores):
 
     return current_stage
 
+def find_next_stage(current_stage, learning_map):
+    next_stage = None
+
+    for index, stage in enumerate(learning_map["stages"]):
+        if stage["name"] == current_stage["stage"]:
+            next_index = index + 1
+            next_stage = learning_map["stages"][next_index]
+            print("Next stage:", next_stage["name"])
+
+    return next_stage
 
 @app.route("/")
 def home():
@@ -71,8 +81,11 @@ def analyze():
     )
 
     current_stage = find_current_stage(stage_scores)
-    print(current_stage)
 
+    next_stage = find_next_stage(
+        current_stage,
+        learning_map
+    )
 
     if goal == learning_map["goal"]:
         print("Goal found!")
@@ -84,6 +97,7 @@ def analyze():
         learning_map=learning_map,
         matched_skills=matched_skills,
         current_stage=current_stage,
-        stage_scores=stage_scores
+        stage_scores=stage_scores,
+        next_stage=next_stage
     )
 

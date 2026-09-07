@@ -53,6 +53,14 @@
         Skills matched: {{ current_stage["score"] }}
     </p>
 
+    <hr>
+
+    <h2>Your Next Stage</h2>
+    
+    <p>
+        {{ next_stage["name"] }}
+    </p>
+
     <h2>Your Learning Map</h2>
 
     {% for stage in learning_map["stages"] %}
