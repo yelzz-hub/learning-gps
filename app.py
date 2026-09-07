@@ -107,6 +107,23 @@ def check_stage_completion(current_stage, learning_map, matched_skills):
         "is_complete": is_complete
     }
 
+def check_next_stage_progress(next_stage, matched_skills):
+    if next_stage is None:
+        return None
+
+    completed_skills = []
+
+    for skill in next_stage["skills"]:
+        if skill in matched_skills:
+            completed_skills.append(skill)
+    total_skills = len(next_stage["skills"])
+
+    return {
+        "completed_skills": completed_skills,
+        "completed_count": len(completed_skills),
+        "total_skills": total_skills
+    }
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -164,6 +181,13 @@ def analyze():
     else:
         next_stage = None
 
+    next_stage_progress = check_next_stage_progress(
+        next_stage,
+        matched_skills
+    )
+
+    print("Next stage progress:", next_stage_progress)
+
     if goal == learning_map["goal"]:
         print("Goal found!")
 
@@ -176,6 +200,7 @@ def analyze():
         current_stage=current_stage,
         stage_scores=stage_scores,
         next_stage=next_stage,
-        stage_completion=stage_completion
+        stage_completion=stage_completion,
+        next_stage_progress=next_stage_progress
     )
 

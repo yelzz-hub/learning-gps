@@ -95,6 +95,15 @@
         <h2>Your Next Stage</h2>
         <p>{{ next_stage["name"] }}</p>
 
+        <p>
+            Progress:
+            {{ next_stage_progress["completed_count"] }}
+            /
+            {{ next_stage_progress["total_skills"] }}
+            skills already learned
+        </p>
+
+
         <h3>Skills to Explore</h3>
         {% if next_stage["skills"] %}
 
