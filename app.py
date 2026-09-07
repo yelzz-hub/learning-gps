@@ -48,6 +48,16 @@ def find_current_stage(stage_scores):
 
     return current_stage
 
+def find_current_stage_by_progress(stage_scores, learning_map):
+    for index, stage_score in enumerate(stage_scores):
+
+        stage = learning_map["stages"][index]
+        total_skills = len(stage["skills"])
+        if stage_score["score"] < total_skills:
+            return stage_score
+        
+    return stage_scores[-1]
+
 def find_next_stage(current_stage, learning_map):
     next_stage = None
 
@@ -58,6 +68,44 @@ def find_next_stage(current_stage, learning_map):
             print("Next stage:", next_stage["name"])
 
     return next_stage
+
+def check_stage_completion(current_stage, learning_map, matched_skills):
+    stage_data = None
+
+    for stage in learning_map["stages"]:
+        if stage["name"] == current_stage["stage"]:
+            stage_data = stage
+
+    total_skills = len(stage_data["skills"])
+    print("Total skills:", total_skills)
+
+    completed_skills = []
+
+    for skill in stage_data["skills"]:
+        if skill in matched_skills:
+            completed_skills.append(skill)
+
+    print("Completed skills:", completed_skills)
+
+    missing_skills = []
+
+    for skill in stage_data["skills"]:
+        if skill not in matched_skills:
+            missing_skills.append(skill)
+
+    print("Missing skills:", missing_skills)
+
+    is_complete = len(completed_skills) == total_skills
+
+    print("Stage complete:", is_complete)
+
+    return {
+        "stage": stage_data["name"],
+        "total_skills": total_skills,
+        "completed_skills": completed_skills,
+        "missing_skills": missing_skills,
+        "is_complete": is_complete
+    }
 
 @app.route("/")
 def home():
@@ -80,12 +128,41 @@ def analyze():
         learning_map
     )
 
+    print("Stage scores:", stage_scores)
+
     current_stage = find_current_stage(stage_scores)
 
-    next_stage = find_next_stage(
-        current_stage,
+    current_stage_by_progress = find_current_stage_by_progress(
+        stage_scores,
         learning_map
     )
+    print(
+        "Current stage by progress:",
+          current_stage_by_progress
+    )
+
+    stage_completion = check_stage_completion(
+        current_stage,
+        learning_map,
+        matched_skills
+    )
+
+    print(stage_completion)
+
+    for index, stage in enumerate(stage_scores):
+        print(
+            "Index:", index,
+            "| Stage:", stage["stage"],
+            "| Score:", stage["score"]
+        )
+
+    if stage_completion["is_complete"]:
+        next_stage = find_next_stage(
+            current_stage,
+            learning_map
+        )
+    else:
+        next_stage = None
 
     if goal == learning_map["goal"]:
         print("Goal found!")
@@ -98,6 +175,7 @@ def analyze():
         matched_skills=matched_skills,
         current_stage=current_stage,
         stage_scores=stage_scores,
-        next_stage=next_stage
+        next_stage=next_stage,
+        stage_completion=stage_completion
     )
 

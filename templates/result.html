@@ -55,23 +55,72 @@
 
     <hr>
 
-    <h2>Your Next Stage</h2>
-    
+    <h2>Current Stage Progress</h2>
+    <h3>{{ stage_completion["stage"] }}</h3>
+
     <p>
-        {{ next_stage["name"] }}
+        Completed Skills:
+        {{ stage_completion["completed_skills"] | length }}
+        /
+        {{ stage_completion["total_skills"] }}
     </p>
 
-    <h3>Skills to Explore</h3>
-    {% if next_stage["skills"] %}
+    <h3>Completed Skills</h3>
+    <ul>
+        {% for skill in stage_completion["completed_skills"] %}
+            <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
+    
+    {% if stage_completion["missing_skills"] %}
+        <h3>Skills You Still Need to Learn</h3>
+        <ul>
+            {% for skill in stage_completion["missing_skills"] %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if stage_completion["is_complete"] %}
+        <h2>Stage Complete!</h2>
+        <p>You are ready to move to the next stage.</p>
+    {% else %}
+        <h2>Complete Your Current Stage First</h2>
+        <p>
+            You still have some skills to learn before moving to the next stage.
+        </p>
+    {% endif %}
+    
+    {% if next_stage %}
+        <h2>Your Next Stage</h2>
+        <p>{{ next_stage["name"] }}</p>
+
+        <h3>Skills to Explore</h3>
+        {% if next_stage["skills"] %}
 
         <ul>
             {% for skill in next_stage["skills"] %}
-                <li>{{ skill }}</li>
+                {% if skill in matched_skills %}
+                    <li>✅ {{ skill }} -Already learned</li>
+                {% else %}
+                    <li>⬜ {{ skill }}</li>
+                {% endif %}
             {% endfor %}
         </ul>
 
     {% else %}
         <p>No skills available for this stage.</p>
+    {% endif %}
+
+    {% else %}
+
+        <h3>Skills to Explore</h3>
+        <ul>
+            {% for skill in stage_completion["missing_skills"] %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+
     {% endif %}
 
     <h2>Your Learning Map</h2>
