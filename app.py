@@ -21,6 +21,34 @@ def find_matching_skills(learning_story, learning_map):
 
     return matched_skills
 
+def calculate_stage_scores(matched_skills, learning_map):
+    stage_scores = []
+
+    for stage in learning_map["stages"]:
+        score = 0
+
+        for skill in stage["skills"]:
+
+            if skill in matched_skills:
+                score += 1
+
+        stage_scores.append({
+            "stage": stage["name"],
+            "score": score
+        })
+
+    return stage_scores
+
+def find_current_stage(stage_scores):
+    current_stage = stage_scores[0]
+
+    for stage in stage_scores:
+        if stage["score"] > current_stage["score"]:
+            current_stage = stage
+
+    return current_stage
+
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -36,7 +64,14 @@ def analyze():
         learning_story,
         learning_map
     )
-    print(matched_skills)
+
+    stage_scores = calculate_stage_scores(
+        matched_skills,
+        learning_map
+    )
+
+    current_stage = find_current_stage(stage_scores)
+    print(current_stage)
 
 
     if goal == learning_map["goal"]:
@@ -47,6 +82,8 @@ def analyze():
         goal=goal,
         learning_story=learning_story,
         learning_map=learning_map,
-        matched_skills=matched_skills
+        matched_skills=matched_skills,
+        current_stage=current_stage,
+        stage_scores=stage_scores
     )
 

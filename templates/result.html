@@ -32,6 +32,26 @@
     {% endif %}
 
     <hr>
+    
+    <h2>Stage Scores</h2>
+    <ul>
+        {% for stage in stage_scores %}
+            <li>
+                {{ stage["stage"] }}:
+                {{ stage["score"] }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Your Current Stage</h2>
+
+    <p>
+        {{ current_stage["stage"] }}
+    </p>
+
+    <p>
+        Skills matched: {{ current_stage["score"] }}
+    </p>
 
     <h2>Your Learning Map</h2>
 
