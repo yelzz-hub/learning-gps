@@ -61,6 +61,19 @@
         {{ next_stage["name"] }}
     </p>
 
+    <h3>Skills to Explore</h3>
+    {% if next_stage["skills"] %}
+
+        <ul>
+            {% for skill in next_stage["skills"] %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <p>No skills available for this stage.</p>
+    {% endif %}
+
     <h2>Your Learning Map</h2>
 
     {% for stage in learning_map["stages"] %}
