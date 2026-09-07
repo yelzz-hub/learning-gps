@@ -17,6 +17,22 @@
 
     <hr>
 
+    <h2>Skills Detected</h2>
+    {% if matched_skills %}
+
+        <ul>
+            {% for skill in matched_skills %}
+                <li>{{ skill }}</li>
+            
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <p>No matching skills were detected.</p>
+    {% endif %}
+
+    <hr>
+
     <h2>Your Learning Map</h2>
 
     {% for stage in learning_map["stages"] %}
