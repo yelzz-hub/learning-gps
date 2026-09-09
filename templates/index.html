@@ -15,10 +15,10 @@
             id="ai_engineer"
             name="goal"
             value="AI Engineer"
-            required
+            checked required
         >
         <label for="ai_engineer">
-            🤖 AI Engineer
+            🤖 <strong>AI Engineer</strong> (Active Track)
         </label>
         <br><br>
 
@@ -27,10 +27,10 @@
             id="cybersecurity"
             name="goal"
             value="Cybersecurity"
-            required
+            disabled
         >
-        <label for="cybersecurity">
-            🔐 Cybersecurity
+        <label for="cybersecurity" 
+            style="color: #888;">🔐 Cybersecurity (Coming Soon)
         </label>
         <br><br>
 
@@ -39,10 +39,10 @@
             id="backend"
             name="goal"
             value="Backend Developer"
-            required
+            disabled
         >
-        <label for="backend">
-            ⚙️ Backend Developer
+        <label for="backend"
+            style="color: #888;">⚙️ Backend Developer (Coming Soon)
         </label>
         <br><br>
 
@@ -51,10 +51,10 @@
             id="data_analyst"
             name="goal"
             value="Data Analyst"
-            required
+            disabled
         >
-        <label for="data_analyst">
-            📊 Data Analyst
+        <label for="data_analyst"
+            style="color: #888;">📊 Data Analyst (Coming Soon)
         </label>
         <br><br>
 
@@ -63,10 +63,10 @@
             id="custom"
             name="goal"
             value="Custom Path"
-            required
+            disabled
         >
-        <label for="custom">
-            ✨ Create My Own Path
+        <label for="custom"
+            style="color: #888;">✨ Create My Own Path (Coming Soon)
         </label>
         
         <hr>
@@ -74,7 +74,7 @@
         <h2>Where are you now?</h2>
     
         <p>
-            Check the skills you have already learned:
+            Check the <strong>AI Engineer Track</strong> skills you have already learned:
         </p>
 
        {% for stage in learning_map["stages"] %}
