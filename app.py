@@ -61,25 +61,25 @@ def find_current_stage_by_progress(stage_scores, learning_map):
 def find_current_stage_by_order(learning_map, matched_skills):
     for stage in learning_map["stages"]:
         stage_skills = stage["skills"]
+
         if not stage_skills:
             continue
-        is_complete = True
 
+        is_complete = True
         for skill in stage_skills:
             if skill not in matched_skills:
                 is_complete = False
 
         if not is_complete:
+            completed_count = 0
+            for skill in stage_skills: 
+                if skill in matched_skills)
+                    completed_count += 1
             return {
                 "stage": stage["name"],
-                "score": len(
-                    [
-                        skill
-                        for skill in stage_skills
-                        if skill in matched_skills
-                    ]
-                )
+                "score": completed_count
             }
+        
     return {
         "stage": "Roadmap Complete",
         "score": 0
@@ -184,35 +184,13 @@ def analyze():
         learning_map
     )
 
-    print("Stage scores:", stage_scores)
-
     current_stage = find_current_stage_by_order(learning_map, matched_skills)
-
-    print("Current stage:", current_stage)
-
-    current_stage_by_progress = find_current_stage_by_progress(
-        stage_scores,
-        learning_map
-    )
-    print(
-        "Current stage by progress:",
-          current_stage_by_progress
-    )
 
     stage_completion = check_stage_completion(
         current_stage,
         learning_map,
         matched_skills
     )
-
-    print(stage_completion)
-
-    for index, stage in enumerate(stage_scores):
-        print(
-            "Index:", index,
-            "| Stage:", stage["stage"],
-            "| Score:", stage["score"]
-        )
 
     if stage_completion["is_complete"]:
         next_stage = find_next_stage(
@@ -226,11 +204,6 @@ def analyze():
         next_stage,
         matched_skills
     )
-
-    print("Next stage progress:", next_stage_progress)
-
-    if goal == learning_map["goal"]:
-        print("Goal found!")
 
     return render_template(
         "result.html",
