@@ -1,4 +1,5 @@
 import json
+import re
 
 from flask import Flask, render_template, request
 
@@ -12,12 +13,22 @@ def load_learning_map():
 def find_matching_skills(learning_story, learning_map):
     matched_skills = []
 
-    learning_story = learning_story.lower()
+    cleaned_story = learning_story.lower()
+    for char in ['"', "'", ',', '.', '!', '?', '(', ')']:
+        cleaned_story = cleaned_story.replace(char, " ")
+
+    words = cleaned_story.split()
 
     for stage in learning_map["stages"]:
         for skill in stage["skills"]:
-            if skill.lower() in learning_story:
-                matched_skills.append(skill)
+            skill_lower = skill.lower()
+
+            if " " not in skill_lower:
+                if skill_lower in words:
+                    matched_skills.append(skill)
+            else:
+                if skill_lower in cleaned_story:
+                    matched_skills.append(skill)
 
     return matched_skills
 
@@ -73,7 +84,7 @@ def find_current_stage_by_order(learning_map, matched_skills):
         if not is_complete:
             completed_count = 0
             for skill in stage_skills: 
-                if skill in matched_skills)
+                if skill in matched_skills:
                     completed_count += 1
             return {
                 "stage": stage["name"],
