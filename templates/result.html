@@ -55,15 +55,22 @@
 
     <hr>
 
-    <h2>Current Stage Progress</h2>
-    <h3>{{ stage_completion["stage"] }}</h3>
+    {% if current_stage["stage"] == "Roadmap Complete" %}
+        <h2>Roadmap Complete</h2>
+        <p>
+            Congratulations! You have completed all stages in your learning roadmap.
+        </p>
+    
+    {% else %}
+        <h2>Current Stage Progress</h2>
+        <h3>{{ stage_completion["stage"] }}</h3>
+        <p>
+            Completed Skills:
+            {{ stage_completion["completed_skills"] | length }}
+            /
+            {{ stage_completion["total_skills"] }}
+        </p>
 
-    <p>
-        Completed Skills:
-        {{ stage_completion["completed_skills"] | length }}
-        /
-        {{ stage_completion["total_skills"] }}
-    </p>
 
     <h3>Completed Skills</h3>
     <ul>
@@ -107,19 +114,19 @@
         <h3>Skills to Explore</h3>
         {% if next_stage["skills"] %}
 
-        <ul>
-            {% for skill in next_stage["skills"] %}
-                {% if skill in matched_skills %}
-                    <li>✅ {{ skill }} -Already learned</li>
-                {% else %}
-                    <li>⬜ {{ skill }}</li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+            <ul>
+                {% for skill in next_stage["skills"] %}
+                    {% if skill in matched_skills %}
+                        <li>✅ {{ skill }} - Already learned</li>
+                    {% else %}
+                        <li>⬜ {{ skill }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
 
-    {% else %}
-        <p>No skills available for this stage.</p>
-    {% endif %}
+        {% else %}
+            <p>No skills available for this stage.</p>
+        {% endif %}
 
     {% else %}
 
@@ -129,6 +136,8 @@
                 <li>{{ skill }}</li>
             {% endfor %}
         </ul>
+
+    {% endif %}
 
     {% endif %}
 

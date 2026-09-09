@@ -58,7 +58,37 @@ def find_current_stage_by_progress(stage_scores, learning_map):
         
     return stage_scores[-1]
 
+def find_current_stage_by_order(learning_map, matched_skills):
+    for stage in learning_map["stages"]:
+        stage_skills = stage["skills"]
+        if not stage_skills:
+            continue
+        is_complete = True
+
+        for skill in stage_skills:
+            if skill not in matched_skills:
+                is_complete = False
+
+        if not is_complete:
+            return {
+                "stage": stage["name"],
+                "score": len(
+                    [
+                        skill
+                        for skill in stage_skills
+                        if skill in matched_skills
+                    ]
+                )
+            }
+    return {
+        "stage": "Roadmap Complete",
+        "score": 0
+    }
+
 def find_next_stage(current_stage, learning_map):
+    if current_stage["stage"] == "Roadmap Complete":
+        return None
+    
     next_stage = None
 
     for index, stage in enumerate(learning_map["stages"]):
@@ -70,6 +100,15 @@ def find_next_stage(current_stage, learning_map):
     return next_stage
 
 def check_stage_completion(current_stage, learning_map, matched_skills):
+    if current_stage["stage"] == "Roadmap Complete":
+        return {
+            "stage": "Roadmap Complete",
+            "total_skills": 0,
+            "completed_skills": [],
+            "missing_skills": [],
+            "is_complete": True
+        }
+    
     stage_data = None
 
     for stage in learning_map["stages"]:
@@ -147,7 +186,9 @@ def analyze():
 
     print("Stage scores:", stage_scores)
 
-    current_stage = find_current_stage(stage_scores)
+    current_stage = find_current_stage_by_order(learning_map, matched_skills)
+
+    print("Current stage:", current_stage)
 
     current_stage_by_progress = find_current_stage_by_progress(
         stage_scores,
