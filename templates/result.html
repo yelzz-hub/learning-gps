@@ -1,13 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your Learning GPS</title>
+    <title>Learning GPS - Results</title>
 </head>
-
 <body>
-    <h1>Your Learning GPS!</h1>
-    <h2>Your Goal</h2>
-    <p>{{ goal }}</p>
+    <h1>🧭 Your Learning GPS Result!</h1>
+
+    <div>
+    <h2>🎯 Your Goal: {{ goal }}</h2>
+    <p><strong>Your Current Status:</strong> You checked <strong> {{ matched_skills | length }}</strong> skills in total.</p>
+    </div>
+
+    <hr>
+
+    <div>
+        <h2>📍 Current Stage: {{ current_stage.stage }}</h2>
+        
+        {% if current_stage.stage != "Roadmap Complete" %}
+            {% set total = stage_completion.total_skills %}
+            {% set completed = stage_completion.completed_skills | length %}
+            {% set percentage = (completed / total * 100) | round | int if total > 0 else 0 %}
+
+            <p><strong>Stage Progress:</strong> {{ completed }} / {{ total }} skills completed ({{ percentage }}%)</p>
+
+            <progress value="{{ completed }}" max="{{ total }}" style="width: 100%; height: 20px;"></progress>
+            <br><br>
+
+            {% if stage_completion.is_complete %}
+                <p>🎊 <strong>Congratulations!</strong> You have completed all skill in this stage!</p>
+                {% if next_stage %}
+                    <p>🚀 <strong>Next Up:</strong> Prepare to start <strong>{{ next_stage.name }}</strong></p>
+                {% endif %}
+            {% else %}
+                <p>⚠️ <strong>Action Required:</strong> You still have skills to master in this stage before moving forward.</p>
+            {% endif %}
+        {% else %}
+            <p>🏆 <strong>Awesome Job!</strong> You have completed the entire roadmap!</p>
+        {% endif %}
+    </div>
 
     <hr>
 
@@ -19,149 +49,64 @@
 
     <h2>Skills Detected</h2>
     {% if matched_skills %}
-
         <ul>
             {% for skill in matched_skills %}
                 <li>{{ skill }}</li>
-            
             {% endfor %}
         </ul>
-
     {% else %}
         <p>No matching skills were detected.</p>
     {% endif %}
-
     <hr>
-    
-    <h2>Stage Scores</h2>
-    <ul>
-        {% for stage in stage_scores %}
-            <li>
-                {{ stage["stage"] }}:
-                {{ stage["score"] }}
-            </li>
+   
+    {% if current_stage.stage != "Roadmap Complete" %}
+        <div>
+            <h3>✅ Completed Skills in {{ current_stage.stage }}</h3>
+            {% if stage_completion.completed_skills %}
+                <ul>
+                    {% for skill in stage_completion.completed_skills %}
+                        <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p><em>No skills completed in this stage yet. Start with the missing skills below!</em></p>
+            {% endif %}
+
+            <h3>📌 Skills You Still Need to Learn</h3>
+            {% if stage_completion.missing_skills %}
+                <ul>
+                    {% for skill in stage_completion.missing_skills %}
+                        <li><strong>{{ skill }}</strong></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p><em>All skills in this stage are completed!</em></p>
+            {% endif %}
+        </div>
+        <hr>
+    {% endif %}
+
+    <div>
+        <h2>🗺️ Full Learning Map</h2>
+        {% for stage in learning_map["stages"] %}
+            {% if stage["skills"] %}
+                <h4>{{ stage["name"] }}</h4>
+                <ul>
+                    {% for skill in stage["skills"] %}
+                        <li>
+                            {% if skill in matched_skills %}
+                               ✅ <del>{{ skill }}</del>
+                            {% else %}
+                               ⚪ {{ skill }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         {% endfor %}
-    </ul>
+    </div>
 
-    <h2>Your Current Stage</h2>
-
-    <p>
-        {{ current_stage["stage"] }}
-    </p>
-
-    <p>
-        Skills matched: {{ current_stage["score"] }}
-    </p>
-
-    <hr>
-
-    {% if current_stage["stage"] == "Roadmap Complete" %}
-        <h2>Roadmap Complete</h2>
-        <p>
-            Congratulations! You have completed all stages in your learning roadmap.
-        </p>
-    
-    {% else %}
-        <h2>Current Stage Progress</h2>
-        <h3>{{ stage_completion["stage"] }}</h3>
-        <p>
-            Completed Skills:
-            {{ stage_completion["completed_skills"] | length }}
-            /
-            {{ stage_completion["total_skills"] }}
-        </p>
-
-
-    <h3>Completed Skills</h3>
-    <ul>
-        {% for skill in stage_completion["completed_skills"] %}
-            <li>{{ skill }}</li>
-        {% endfor %}
-    </ul>
-    
-    {% if stage_completion["missing_skills"] %}
-        <h3>Skills You Still Need to Learn</h3>
-        <ul>
-            {% for skill in stage_completion["missing_skills"] %}
-                <li>{{ skill }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    {% if stage_completion["is_complete"] %}
-        <h2>Stage Complete!</h2>
-        <p>You are ready to move to the next stage.</p>
-    {% else %}
-        <h2>Complete Your Current Stage First</h2>
-        <p>
-            You still have some skills to learn before moving to the next stage.
-        </p>
-    {% endif %}
-    
-    {% if next_stage %}
-        <h2>Your Next Stage</h2>
-        <p>{{ next_stage["name"] }}</p>
-
-        <p>
-            Progress:
-            {{ next_stage_progress["completed_count"] }}
-            /
-            {{ next_stage_progress["total_skills"] }}
-            skills already learned
-        </p>
-
-
-        <h3>Skills to Explore</h3>
-        {% if next_stage["skills"] %}
-
-            <ul>
-                {% for skill in next_stage["skills"] %}
-                    {% if skill in matched_skills %}
-                        <li>✅ {{ skill }} - Already learned</li>
-                    {% else %}
-                        <li>⬜ {{ skill }}</li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-
-        {% else %}
-            <p>No skills available for this stage.</p>
-        {% endif %}
-
-    {% else %}
-
-        <h3>Skills to Explore</h3>
-        <ul>
-            {% for skill in stage_completion["missing_skills"] %}
-                <li>{{ skill }}</li>
-            {% endfor %}
-        </ul>
-
-    {% endif %}
-
-    {% endif %}
-
-    <h2>Your Learning Map</h2>
-
-    {% for stage in learning_map["stages"] %}
-
-    <h3>
-        Stage {{ stage["id"]}}: {{ stage["name"] }}
-    </h3>
-
-    {% if stage["skills"] %}
-
-        <ul>
-            {% for skill in stage["skills"] %}
-                <li>{{ skill }}</li>
-            {% endfor %}
-            
-        </ul>
-    
-    {% endif %}
-
-{% endfor %}
-
-
+    <br>
+    <a href="/"><button type="button">⬅️ Re-analyze / Change Skills</button></a>
 </body>
 </html>
