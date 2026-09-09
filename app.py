@@ -8,28 +8,7 @@ def load_learning_map():
     with open("data/learning_map.json", "r") as file:
         learning_map = json.load(file)
     return learning_map
-    
-def find_matching_skills(learning_story, learning_map):
-    matched_skills = []
 
-    cleaned_story = learning_story.lower()
-    for char in ['"', "'", ',', '.', '!', '?', '(', ')']:
-        cleaned_story = cleaned_story.replace(char, " ")
-
-    words = cleaned_story.split()
-
-    for stage in learning_map["stages"]:
-        for skill in stage["skills"]:
-            skill_lower = skill.lower()
-
-            if " " not in skill_lower:
-                if skill_lower in words:
-                    matched_skills.append(skill)
-            else:
-                if skill_lower in cleaned_story:
-                    matched_skills.append(skill)
-
-    return matched_skills
 
 def calculate_stage_scores(matched_skills, learning_map):
     stage_scores = []
@@ -48,25 +27,6 @@ def calculate_stage_scores(matched_skills, learning_map):
         })
 
     return stage_scores
-
-def find_current_stage(stage_scores):
-    current_stage = stage_scores[0]
-
-    for stage in stage_scores:
-        if stage["score"] > current_stage["score"]:
-            current_stage = stage
-
-    return current_stage
-
-def find_current_stage_by_progress(stage_scores, learning_map):
-    for index, stage_score in enumerate(stage_scores):
-
-        stage = learning_map["stages"][index]
-        total_skills = len(stage["skills"])
-        if stage_score["score"] < total_skills:
-            return stage_score
-        
-    return stage_scores[-1]
 
 def find_current_stage_by_order(learning_map, matched_skills):
     for stage in learning_map["stages"]:
@@ -216,7 +176,6 @@ def analyze():
     return render_template(
         "result.html",
         goal=goal,
-        learning_story="Selected via checkbox list",
         learning_map=learning_map,
         matched_skills=matched_skills,
         current_stage=current_stage,

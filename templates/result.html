@@ -27,7 +27,7 @@
             <br><br>
 
             {% if stage_completion.is_complete %}
-                <p>🎊 <strong>Congratulations!</strong> You have completed all skill in this stage!</p>
+                <p>🎊 <strong>Congratulations!</strong> You have completed all skills in this stage!</p>
                 {% if next_stage %}
                     <p>🚀 <strong>Next Up:</strong> Prepare to start <strong>{{ next_stage.name }}</strong></p>
                 {% endif %}
@@ -38,12 +38,6 @@
             <p>🏆 <strong>Awesome Job!</strong> You have completed the entire roadmap!</p>
         {% endif %}
     </div>
-
-    <hr>
-
-    <h2>Where You Are Now</h2>
-    <p>This is what you told Learning GPS:</p>
-    <p>{{ learning_story }}</p>
 
     <hr>
 
