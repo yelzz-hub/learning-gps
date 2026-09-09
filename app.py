@@ -1,5 +1,4 @@
 import json
-import re
 
 from flask import Flask, render_template, request
 
@@ -176,19 +175,16 @@ def check_next_stage_progress(next_stage, matched_skills):
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    learning_map = load_learning_map()
+    return render_template("index.html", learning_map=learning_map)
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
     goal = request.form["goal"]
 
-    learning_story = request.form["learning_story"]
-    learning_map = load_learning_map()
+    matched_skills = request.form.getlist("learned_skills")
 
-    matched_skills = find_matching_skills(
-        learning_story,
-        learning_map
-    )
+    learning_map = load_learning_map()
 
     stage_scores = calculate_stage_scores(
         matched_skills,
@@ -202,6 +198,7 @@ def analyze():
         learning_map,
         matched_skills
     )
+
 
     if stage_completion["is_complete"]:
         next_stage = find_next_stage(
@@ -219,7 +216,7 @@ def analyze():
     return render_template(
         "result.html",
         goal=goal,
-        learning_story=learning_story,
+        learning_story="Selected via checkbox list",
         learning_map=learning_map,
         matched_skills=matched_skills,
         current_stage=current_stage,

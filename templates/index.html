@@ -74,23 +74,26 @@
         <h2>Where are you now?</h2>
     
         <p>
-            Tell Learning GPS what you have learned so far.
+            Check the skills you have already learned:
         </p>
 
-        <textarea
-            name="learning_story"
-            placeholder="Example: I have learned Python basics, loops, and functions. I haven't built many projects yet..."
-            rows="10"
-            cols="60">
-        </textarea>
+       {% for stage in learning_map["stages"] %}
+            {% if stage["skills"] %}
+                <h3>{{ stage["name"] }}</h3>
+                {% for skill in stage["skills"] %}
+                    <div>
+                        <input type="checkbox" id="{{ skill }}" name="learned_skills" value="{{ skill }}">
+                        <label for="{{ skill }}">{{ skill }}</label>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}     
 
         <br><br>
 
         <button type="submit">
             Analyze My Path
         </button>
-
-
     </form>
 </body>
 </html>
