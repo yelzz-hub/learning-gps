@@ -58,16 +58,16 @@ def find_current_stage_by_order(learning_map, matched_skills):
 def find_next_stage(current_stage, learning_map):
     if current_stage["stage"] == "Roadmap Complete":
         return None
-    
-    next_stage = None
 
     for index, stage in enumerate(learning_map["stages"]):
         if stage["name"] == current_stage["stage"]:
             next_index = index + 1
-            next_stage = learning_map["stages"][next_index]
-            print("Next stage:", next_stage["name"])
 
-    return next_stage
+            if next_index >= len(learning_map["stages"]):
+                return None
+            
+            return learning_map["stages"][next_index]
+    return None
 
 def check_stage_completion(current_stage, learning_map, matched_skills):
     if current_stage["stage"] == "Roadmap Complete":
@@ -86,7 +86,6 @@ def check_stage_completion(current_stage, learning_map, matched_skills):
             stage_data = stage
 
     total_skills = len(stage_data["skills"])
-    print("Total skills:", total_skills)
 
     completed_skills = []
 
@@ -94,19 +93,13 @@ def check_stage_completion(current_stage, learning_map, matched_skills):
         if skill in matched_skills:
             completed_skills.append(skill)
 
-    print("Completed skills:", completed_skills)
-
     missing_skills = []
 
     for skill in stage_data["skills"]:
         if skill not in matched_skills:
             missing_skills.append(skill)
 
-    print("Missing skills:", missing_skills)
-
     is_complete = len(completed_skills) == total_skills
-
-    print("Stage complete:", is_complete)
 
     return {
         "stage": stage_data["name"],

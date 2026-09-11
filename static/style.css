@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+
+:root {
+
+    /* =========================
+       COLORS
+       ========================= */
+
+    --bg-main: #14171f;
+    --bg-card: #1f232e;
+    --bg-card-hover: #262b3a;
+    --bg-input: #0f1117;
+
+    --accent-teal: #2dd4bf;
+    --accent-gold: #fbbf24;
+
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+
+    --border-subtle: rgba(255, 255, 255, 0.06);
+
+
+    /* =========================
+       FONTS
+       ========================= */
+
+    --font-title: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+
+    /* =========================
+       SIZES
+       ========================= */
+
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --radius-pill: 9999px;
+}
+
+
+/* =========================
+   GLOBAL
+   ========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+
+    margin: 40px 25px;
+
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================
+   HEADINGS
+   ========================= */
+
+h1 {
+    font-family: var(--font-title);
+
+    font-size: 42px;
+    font-weight: 700;
+
+    letter-spacing: -0.03em;
+
+    margin: 0 0 30px;
+
+    color: var(--text-main);
+}
+
+h2 {
+    font-family: var(--font-title);
+
+    font-size: 24px;
+    font-weight: 600;
+
+    letter-spacing: -0.02em;
+
+    margin-top: 0;
+    margin-bottom: 16px;
+
+    color: var(--text-main);
+}
+
+h3 {
+    font-size: 13px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+
+    color: var(--accent-gold);
+
+    margin-top: 28px;
+    margin-bottom: 14px;
+}
+
+p {
+    color: var(--text-muted);
+}
+
+
+/* =========================
+   CARD
+   ========================= */
+
+.card {
+    width: 80%;
+    max-width: 1000px;
+    padding: 28px;
+    margin: 20px auto;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow:
+        0 12px 36px rgba(0, 0, 0, 0.2);
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.25s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =========================
+   INDEX PAGE
+   ========================= */
+
+form[action="/analyze"] .card {
+    max-width: 900px;
+    min-height: 0;
+    padding: 28px;
+    margin: 16px auto;
+}
+
+form[action="/analyze"] .card:hover {
+    background-color: var(--bg-card-hover);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   GOAL OPTIONS
+   ========================= */
+
+form[action="/analyze"] .goal-option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 10px 0;
+    padding: 14px 18px;
+    background-color: rgba(255, 255, 255, 0.025);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+form[action="/analyze"] .goal-option:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================
+   SKILL OPTIONS
+   ========================= */
+
+form[action="/analyze"] .skill-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 8px 0;
+    padding: 12px 16px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+form[action="/analyze"] .skill-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================
+   CHECKBOX + RADIO
+   ========================= */
+
+form[action="/analyze"] input[type="checkbox"],
+form[action="/analyze"] input[type="radio"] {
+    width: 19px;
+    height: 19px;
+    accent-color: var(--accent-teal);
+    cursor: pointer;
+}
+
+
+/* =========================
+   LABEL
+   ========================= */
+
+form[action="/analyze"] .goal-option label,
+form[action="/analyze"] .skill-item label {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+form[action="/analyze"] input:checked + label {
+    color: var(--accent-teal);
+    font-weight: 600;
+}
+
+
+/* =========================
+   BUTTON
+   ========================= */
+
+form[action="/analyze"] .submit-area {
+    width: 80%;
+    max-width: 900px;
+    margin: 24px auto;
+    text-align: right;
+}
+
+form[action="/analyze"] button {
+    font-family: var(--font-body);
+    padding: 13px 26px;
+    border: none;
+    border-radius: var(--radius-pill);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: var(--accent-teal);
+    color: #0f1117;
+    box-shadow:
+        0 4px 18px rgba(45, 212, 191, 0.15);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+form[action="/analyze"] button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 24px rgba(45, 212, 191, 0.35);
+    filter: brightness(1.05);
+}
+
+form[action="/analyze"] button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================
+   INPUT
+   ========================= */
+
+input {
+    font-family: var(--font-body);
+    font-size: 16px;
+    background: transparent;
+    color: var(--text-main);
+}
+
+
+/* =========================
+   TEXTAREA
+   ========================= */
+
+textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 18px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-main);
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+}
+
+textarea:focus {
+    border-color: var(--accent-teal);
+    box-shadow:
+        0 0 0 4px rgba(45, 212, 191, 0.1);
+}
+
+
+/* =========================
+   RESULT PAGE
+   ========================= */
+
+.top-cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    width: 80%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.top-cards .card {
+    flex: 1;
+    margin: 0;
+    min-width: 280px;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 768px) {
+
+    body {
+        margin: 24px 16px;
+    }
+
+    .card,
+    .top-cards,
+    form[action="/analyze"] .card,
+    form[action="/analyze"] .submit-area {
+
+        width: 100%;
+
+        max-width: 100%;
+
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .top-cards {
+
+        flex-direction: column;
+
+        gap: 16px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    form[action="/analyze"] .submit-area {
+        text-align: center;
+    }
+}
+
+/* =========================
+   BACK BUTTON
+   ========================= */
+
+.back-button {
+    display: inline-block;
+    padding: 12px 26px;
+    border-radius: var(--radius-pill);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.back-button:hover {
+    background-color: var(--bg-card-hover);
+    border-color: rgba(45, 212, 191, 0.4);
+    color: var(--accent-teal);
+    transform: translateY(-2px);
+}

@@ -2,98 +2,119 @@
 <html>
 <head>
     <title>Learning GPS</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <h1>Learning GPS!</h1>
+    <h1>🧭 Learning GPS!</h1>
 
     <form method="POST" action="/analyze">
+
+        <div class="card">
     
-        <h2>Where do you want to go?</h2>
-        <input
-            type="radio"
-            id="ai_engineer"
-            name="goal"
-            value="AI Engineer"
-            checked required
-        >
-        <label for="ai_engineer">
-            🤖 <strong>AI Engineer</strong> (Active Track)
-        </label>
-        <br><br>
+            <h2>🎯 Where do you want to go?</h2>
+            <input
+                type="radio"
+                id="ai_engineer"
+                name="goal"
+                value="AI Engineer"
+                checked 
+                required
+            >
+            <label for="ai_engineer">
+                🤖 <strong>AI Engineer</strong> (Active Track)
+            </label>
+            <br><br>
+            
+            <div class=""goal-option>
+                <input
+                    type="radio"
+                    id="cybersecurity"
+                    name="goal"
+                    value="Cybersecurity"
+                    disabled
+                >
+                <label for="cybersecurity">
+                    🔐 Cybersecurity (Coming Soon)
+                </label>
+            </div>
 
-        <input
-            type="radio"
-            id="cybersecurity"
-            name="goal"
-            value="Cybersecurity"
-            disabled
-        >
-        <label for="cybersecurity" 
-            style="color: #888;">🔐 Cybersecurity (Coming Soon)
-        </label>
-        <br><br>
+            <div class=""goal-option>
+                <input
+                    type="radio"
+                    id="backend"
+                    name="goal"
+                    value="Backend Developer"
+                    disabled
+                >
+                <label for="backend">
+                    ⚙️ Backend Developer (Coming Soon)
+                </label>
+            </div>
 
-        <input
-            type="radio"
-            id="backend"
-            name="goal"
-            value="Backend Developer"
-            disabled
-        >
-        <label for="backend"
-            style="color: #888;">⚙️ Backend Developer (Coming Soon)
-        </label>
-        <br><br>
+            <div class=""goal-option>
+                <input
+                    type="radio"
+                    id="data_analyst"
+                    name="goal"
+                    value="Data Analyst"
+                    disabled
+                >
+                <label for="data_analyst">
+                    📊 Data Analyst (Coming Soon)
+                </label>
+            </div>
 
-        <input
-            type="radio"
-            id="data_analyst"
-            name="goal"
-            value="Data Analyst"
-            disabled
-        >
-        <label for="data_analyst"
-            style="color: #888;">📊 Data Analyst (Coming Soon)
-        </label>
-        <br><br>
+            <div class=""goal-option>
+                <input
+                    type="radio"
+                    id="custom"
+                    name="goal"
+                    value="Custom Path"
+                    disabled
+                >
+                <label for="custom">
+                    ✨ Create My Own Path (Coming Soon)
+                </label>
+            </div>
 
-        <input
-            type="radio"
-            id="custom"
-            name="goal"
-            value="Custom Path"
-            disabled
-        >
-        <label for="custom"
-            style="color: #888;">✨ Create My Own Path (Coming Soon)
-        </label>
+        </div>
         
-        <hr>
+        
+        <div class="card">
 
-        <h2>Where are you now?</h2>
-    
-        <p>
-            Check the <strong>AI Engineer Track</strong> skills you have already learned:
-        </p>
+            <h2>📍 Where are you now?</h2>
+        
+            <p>
+                Check the <strong>AI Engineer Track</strong> skills you have already learned:
+            </p>
 
-       {% for stage in learning_map["stages"] %}
-            {% if stage["skills"] %}
-                <h3>{{ stage["name"] }}</h3>
-                {% for skill in stage["skills"] %}
-                    <div>
-                        <input type="checkbox" id="{{ skill }}" name="learned_skills" value="{{ skill }}">
-                        <label for="{{ skill }}">{{ skill }}</label>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endfor %}     
+            {% for stage in learning_map["stages"] %}
+                {% if stage["skills"] %}
 
-        <br><br>
+                    <h3>{{ stage["name"] }}</h3>
 
-        <button type="submit">
-            Analyze My Path
-        </button>
+                    {% for skill in stage["skills"] %}
+
+                        <div class="skill-item">
+                            <input type="checkbox" id="{{ skill }}" name="learned_skills" value="{{ skill }}">
+                            <label for="{{ skill }}">{{ skill }}</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}     
+        
+        </div>
+
+       
+        <div class="submit-area">
+
+            <button type="submit">
+                🧭 Analyze My Path
+            </button>
+        </div>
+
     </form>
 </body>
 </html>

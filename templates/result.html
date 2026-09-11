@@ -2,59 +2,71 @@
 <html>
 <head>
     <title>Learning GPS - Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>🧭 Your Learning GPS Result!</h1>
 
-    <div>
-    <h2>🎯 Your Goal: {{ goal }}</h2>
-    <p><strong>Your Current Status:</strong> You checked <strong> {{ matched_skills | length }}</strong> skills in total.</p>
-    </div>
+    <div class="top-cards">
+    
+        <div class="card">
+            <h2>🎯 Your Goal: {{ goal }}</h2>
+            <p>
+                <strong>Your Current Status:</strong> You checked 
+                <strong> {{ matched_skills | length }}</strong> skills in total.
+            </p>
+        </div>
 
-    <hr>
+        <div class="card">
+            <h2>📍 Current Stage: {{ current_stage.stage }}</h2>
+            
+            {% if current_stage.stage != "Roadmap Complete" %}
+                {% set total = stage_completion.total_skills %}
+                {% set completed = stage_completion.completed_skills | length %}
+                {% set percentage = (completed / total * 100) | round | int if total > 0 else 0 %}
 
-    <div>
-        <h2>📍 Current Stage: {{ current_stage.stage }}</h2>
-        
-        {% if current_stage.stage != "Roadmap Complete" %}
-            {% set total = stage_completion.total_skills %}
-            {% set completed = stage_completion.completed_skills | length %}
-            {% set percentage = (completed / total * 100) | round | int if total > 0 else 0 %}
+                <p><strong>Stage Progress:</strong> {{ completed }} / {{ total }} skills completed ({{ percentage }}%)</p>
 
-            <p><strong>Stage Progress:</strong> {{ completed }} / {{ total }} skills completed ({{ percentage }}%)</p>
+                <progress 
+                    value="{{ completed }}" 
+                    max="{{ total }}" 
+                    style="width: 100%; height: 20px;">
+                </progress>
 
-            <progress value="{{ completed }}" max="{{ total }}" style="width: 100%; height: 20px;"></progress>
-            <br><br>
+                <br><br>
 
-            {% if stage_completion.is_complete %}
-                <p>🎊 <strong>Congratulations!</strong> You have completed all skills in this stage!</p>
-                {% if next_stage %}
-                    <p>🚀 <strong>Next Up:</strong> Prepare to start <strong>{{ next_stage.name }}</strong></p>
+                {% if stage_completion.is_complete %}
+                    <p>🎊 <strong>Congratulations!</strong> You have completed all skills in this stage!</p>
+                    {% if next_stage %}
+                        <p>🚀 <strong>Next Up:</strong> Prepare to start <strong>{{ next_stage.name }}</strong></p>
+                    {% endif %}
+                {% else %}
+                    <p>⚠️ <strong>Action Required:</strong> You still have skills to master in this stage before moving forward.</p>
                 {% endif %}
             {% else %}
-                <p>⚠️ <strong>Action Required:</strong> You still have skills to master in this stage before moving forward.</p>
+                <p>🏆 <strong>Awesome Job!</strong> You have completed the entire roadmap!</p>
             {% endif %}
-        {% else %}
-            <p>🏆 <strong>Awesome Job!</strong> You have completed the entire roadmap!</p>
-        {% endif %}
-    </div>
+        </div>
 
-    <hr>
+        <div class="card">
+            <h2>Skills Detected</h2>
+            {% if matched_skills %}
+                <ul>
+                    {% for skill in matched_skills %}
+                        <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No matching skills were detected.</p>
+            {% endif %}
+        </div>
+    
+    </div>   
 
-    <h2>Skills Detected</h2>
-    {% if matched_skills %}
-        <ul>
-            {% for skill in matched_skills %}
-                <li>{{ skill }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No matching skills were detected.</p>
-    {% endif %}
     <hr>
    
     {% if current_stage.stage != "Roadmap Complete" %}
-        <div>
+        <div class="card">
             <h3>✅ Completed Skills in {{ current_stage.stage }}</h3>
             {% if stage_completion.completed_skills %}
                 <ul>
@@ -80,7 +92,7 @@
         <hr>
     {% endif %}
 
-    <div>
+    <div class="card">
         <h2>🗺️ Full Learning Map</h2>
         {% for stage in learning_map["stages"] %}
             {% if stage["skills"] %}
@@ -101,6 +113,8 @@
     </div>
 
     <br>
-    <a href="/"><button type="button">⬅️ Re-analyze / Change Skills</button></a>
+    <a href="/" class="back-button">
+        ⬅️ Re-analyze / Change Skills
+    </a>
 </body>
 </html>
