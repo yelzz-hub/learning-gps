@@ -76,6 +76,8 @@ h1 {
     margin: 0 0 30px;
 
     color: var(--text-main);
+
+    text-align: center;
 }
 
 h2 {
@@ -238,7 +240,7 @@ form[action="/analyze"] .submit-area {
     width: 80%;
     max-width: 900px;
     margin: 24px auto;
-    text-align: right;
+    text-align: center;
 }
 
 form[action="/analyze"] button {
@@ -400,4 +402,9 @@ textarea:focus {
     border-color: rgba(45, 212, 191, 0.4);
     color: var(--accent-teal);
     transform: translateY(-2px);
+}
+
+.back-button-area {
+    text-align: center;
+    margin: 24px 0;
 }
