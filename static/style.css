@@ -408,3 +408,151 @@ textarea:focus {
     text-align: center;
     margin: 24px 0;
 }
+
+/* =========================
+   PAGE HEADER
+   ========================= */
+
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-header h1 {
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+/* =========================
+   GOAL OPTIONS
+   ========================= */
+
+form[action="/analyze"] .goal-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+}
+
+
+.option-status {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* =========================
+   DISABLED OPTIONS
+   ========================= */
+
+form[action="/analyze"] .goal-option.disabled {
+    opacity: 0.5;
+}
+
+.goal-option.disabled label {
+    cursor: not-allowed;
+}
+
+/* =========================
+   STAGE SECTION
+   ========================= */
+
+.stage-section {
+    margin-top: 28px;
+}
+
+.stage-section h3 {
+    margin-top: 0;
+}
+
+/* =========================
+   SKILLS LIST
+   ========================= */
+
+.skills-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+/* =========================
+   SUBMIT
+   ========================= */
+
+form[action="/analyze"] .submit-area {
+    text-align: center;
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+    .skills-list {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================
+   INDEX REDESIGN OVERRIDE
+   ========================= */
+
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-header h1 {
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+form[action="/analyze"] .goal-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+}
+
+.option-status {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+form[action="/analyze"] .goal-option.disabled {
+    opacity: 0.5;
+}
+
+.stage-section {
+    margin-top: 28px;
+}
+
+.stage-section h3 {
+    margin-top: 0;
+}
+
+.skills-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+form[action="/analyze"] .submit-area {
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .skills-list {
+        grid-template-columns: 1fr;
+    }
+}

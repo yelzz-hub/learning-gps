@@ -7,27 +7,41 @@
 </head>
 
 <body>
-    <h1>🧭 Learning GPS!</h1>
+
+    <header class="page-header">
+        <h1>🧭 Learning GPS!</h1>
+
+        <p>
+            Find your path. Know your next step.
+        </p>
+    </header>
 
     <form method="POST" action="/analyze">
 
         <div class="card">
     
             <h2>🎯 Where do you want to go?</h2>
-            <input
-                type="radio"
-                id="ai_engineer"
-                name="goal"
-                value="AI Engineer"
-                checked 
-                required
-            >
-            <label for="ai_engineer">
-                🤖 <strong>AI Engineer</strong> (Active Track)
-            </label>
-            <br><br>
+
+            <div class="goal-option">
+                <input
+                    type="radio"
+                    id="ai_engineer"
+                    name="goal"
+                    value="AI Engineer"
+                    checked 
+                    required
+                >
+                <label for="ai_engineer">
+                    🤖 <strong>AI Engineer</strong> 
+
+                    <span class="option-status">
+                        Active learning path
+                    </span>
+                </label>
+            </div>
+             
             
-            <div class=""goal-option>
+            <div class="goal-option disabled">
                 <input
                     type="radio"
                     id="cybersecurity"
@@ -36,11 +50,15 @@
                     disabled
                 >
                 <label for="cybersecurity">
-                    🔐 Cybersecurity (Coming Soon)
+                    🔐 <strong>Cybersecurity</strong>
+
+                    <span class="option-status">
+                        Coming soon
+                    </span>
                 </label>
             </div>
 
-            <div class=""goal-option>
+            <div class="goal-option disabled">
                 <input
                     type="radio"
                     id="backend"
@@ -49,11 +67,15 @@
                     disabled
                 >
                 <label for="backend">
-                    ⚙️ Backend Developer (Coming Soon)
+                    ⚙️ <strong>Backend Developer</strong>
+                    
+                    <span class="option-status">
+                        Coming soon
+                    </span>
                 </label>
             </div>
 
-            <div class=""goal-option>
+            <div class="goal-option disabled">
                 <input
                     type="radio"
                     id="data_analyst"
@@ -62,11 +84,15 @@
                     disabled
                 >
                 <label for="data_analyst">
-                    📊 Data Analyst (Coming Soon)
+                    📊 <strong>Data Analyst</strong>
+                    
+                    <span class="option-status">
+                        Coming soon
+                    </span>
                 </label>
             </div>
 
-            <div class=""goal-option>
+            <div class="goal-option disabled">
                 <input
                     type="radio"
                     id="custom"
@@ -75,7 +101,11 @@
                     disabled
                 >
                 <label for="custom">
-                    ✨ Create My Own Path (Coming Soon)
+                    ✨ <strong>Create My Own Path</strong>
+
+                    <span class="option-status">
+                        Coming soon
+                    </span>
                 </label>
             </div>
 
@@ -87,31 +117,43 @@
             <h2>📍 Where are you now?</h2>
         
             <p>
-                Check the <strong>AI Engineer Track</strong> skills you have already learned:
+                Check the <strong>AI Engineer Track</strong> 
+                skills you have already learned:
             </p>
 
             {% for stage in learning_map["stages"] %}
                 {% if stage["skills"] %}
+                    <div class="stage-section">
 
-                    <h3>{{ stage["name"] }}</h3>
+                        <h3>{{ stage["name"] }}</h3>
 
-                    {% for skill in stage["skills"] %}
+                        <div class="skills-list">
 
-                        <div class="skill-item">
-                            <input type="checkbox" id="{{ skill }}" name="learned_skills" value="{{ skill }}">
-                            <label for="{{ skill }}">{{ skill }}</label>
+                            {% for skill in stage["skills"] %}
+
+                                <div class="skill-item">
+                                    <input 
+                                    type="checkbox" 
+                                    id="{{ skill }}" 
+                                    name="learned_skills" 
+                                    value="{{ skill }}"
+                                    >
+                                    <label for="{{ skill }}">
+                                        {{ skill }}
+                                    </label>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+                    </div>
                 {% endif %}
             {% endfor %}     
-        
         </div>
 
        
         <div class="submit-area">
 
             <button type="submit">
-                🧭 Analyze My Path
+                🧭 Analyze My Path →
             </button>
         </div>
 
