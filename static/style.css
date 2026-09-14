@@ -695,7 +695,7 @@ form[action="/analyze"] .submit-area {
 
 .map-skill:hover {
     transform: translateY(-2px);
-    background-color: var(--bg-card-hover);
+    background-color: var(--bg-card-hover)
 }
 
 /* =========================
