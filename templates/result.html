@@ -139,6 +139,14 @@
     {% endif %}
 
     <div class="card result-card">
+        <h3>🧭 NEXT STEP</h3>
+    
+        <p>
+            {{ next_step }}
+        </p>
+    </div>
+
+    <div class="card result-card">
         <h3>🧠 SKILLS DETECTED</h3>
         {% if matched_skills %}
             <div class="skill-chips">
@@ -164,6 +172,7 @@
         <div class="learning-map">
 
             {% for stage in learning_map["stages"] %}
+
                 {% if stage["skills"] %}
 
                     <div class="map-stage">
@@ -173,23 +182,21 @@
                         <div class="map-skills">
                 
                             {% for skill in stage["skills"] %}
+                            
+                                {% set skill_name = get_skill_name(skill) %}
 
-                                <div class="map-skill
-                                    {% if skill in matched_skills %}
-                                        skill-completed
-                                    {% else %}
-                                        skill-incomplete
-                                    {% endif %}
-                                ">
-                        
-                                    {% if skill in matched_skills %}
+                                <div class="map-skill {% if skill_name in matched_skills %}skill-completed{% else %}skill-incomplete{% endif %}">
+
+
+                                    {% if skill_name in matched_skills %}
                                         <span>✓</span>
-                                        <del>{{ skill }}</del>
+                                        <del>{{ skill_name }}</del>
                                     {% else %}
                                         <span>○</span>
-                                        <span>{{ skill }}</span>
+                                        <span>{{ skill_name }}</span>
                                     {% endif %}
                                 </div>
+
                             {% endfor %}
                         </div>
                     </div>

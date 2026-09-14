@@ -26,11 +26,26 @@
             "id": 2,
             "name": "Intermediate Python",
             "skills": [
-                "OOP",
-                "Modules",
-                "File Handling",
-                "Exception Handling",
-                "APIs"
+                {
+                    "name": "OOP", 
+                    "description": "Learn how to organize Python code using classes and objects."
+                },
+                {
+                    "name": "Modules",
+                    "description": "Learn how to organize code into reusable Python files."
+                },
+                {
+                    "name": "File Handling",
+                    "description": "Learn how to read and write files using Python."
+                },
+                {
+                    "name": "Exception Handling",
+                    "description": "Learn how to handle errors safely using try and except."
+                },
+                {
+                    "name": "APIs",
+                    "description": "Learn how Python communicates with external services through APIs."
+                }
             ]
         },
 

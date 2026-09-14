@@ -132,14 +132,15 @@
                             {% for skill in stage["skills"] %}
 
                                 <div class="skill-item">
+
                                     <input 
-                                    type="checkbox" 
-                                    id="{{ skill }}" 
-                                    name="learned_skills" 
-                                    value="{{ skill }}"
+                                        type="checkbox" 
+                                        id="{{ get_skill_name(skill) }}" 
+                                        name="learned_skills" 
+                                        value="{{ get_skill_name(skill) }}"
                                     >
-                                    <label for="{{ skill }}">
-                                        {{ skill }}
+                                    <label for="{{ get_skill_name(skill) }}">
+                                        {{ get_skill_name(skill) }}
                                     </label>
                                 </div>
                             {% endfor %}
