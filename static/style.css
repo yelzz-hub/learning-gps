@@ -555,4 +555,166 @@ form[action="/analyze"] .submit-area {
     .skills-list {
         grid-template-columns: 1fr;
     }
+    .progress-grid {
+        grid-template-columns: 1fr;
+    }
+    .map-skills{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* =========================
+   SKILL CHIPS
+   ========================= */
+
+.skill-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-chip {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: rgba(45, 212, 191, 0.08);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: war(--radius-pill);
+    color: var(--accent-teal);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* =========================
+   CURRENT PROGRESS
+   ========================= */
+
+.progress-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.progress-section {
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+}
+
+.progress-section h4 {
+    margin: 0 0 12px;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+.progress-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.progress-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.completed-item {
+    background: rgba(45, 212, 191, 0.06);
+    color: var(--accent-teal)
+}
+
+.missing-item {
+    background: rgba(251, 191, 36, 0,06);
+    color: var(--accent-gold);
+}
+
+.progress-icon {
+    font-weight: 700;
+}
+
+/* =========================
+   FULL LEARNING MAP
+   ========================= */
+
+.learning-map {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.map-stage {
+    padding: 18px;
+    background: rgba(225, 255, 255, 0.025);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+}
+
+.map-stage h4 {
+    margin: 0 0 14px;
+    color: var(--text-main);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.map-skills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.map-skill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+}
+
+.skill-completed {
+    background: rgba(45, 212, 191, 0.06);
+    color: #22d3ee;
+}
+
+.skill-incomplete {
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    color: var(--text-muted);
+}
+
+.map-skill span:first-child {
+    font-weight: 700;
+}
+
+.map-skill:hover {
+    transform: translateY(-2px);
+    background-color: var(--bg-card-hover);
+}
+
+/* =========================
+   STAGE PROGRESS BAR
+   ========================= */
+
+.stage-progress {
+    width: 100%;
+    height: 10px;
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+}
+
+.stage-progress-bar {
+    width: var(--progress-width);
+    height: 100%;
+    background: var(--accent-teal);
+    border-radius: var(--radius-pill);
+    transition: width 0.4s ease;
 }
