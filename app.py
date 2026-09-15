@@ -9,6 +9,11 @@ def get_skill_name(skill):
         return skill["name"]
     return skill
 
+def get_skill_description(skill):
+    if isinstance(skill, dict):
+        return skill.get("description", "")
+    return ""
+
 def load_learning_map():
     with open("data/learning_map.json", "r") as file:
         learning_map = json.load(file)
@@ -172,14 +177,25 @@ def analyze():
 
     if stage_completion["is_complete"]:
         next_step = "You are ready to move to the next stage!"
+        next_step_description = ""
     else:
         missing_skills = stage_completion["missing_skills"]
 
         if missing_skills:
-            next_step = f"Focus on: {missing_skills[0]}"
-        else: 
-            next_step = "Keep learning!"
+            next_skill_name = missing_skills[0]
+            next_step = f"Focus on: {next_skill_name}"
+            next_step_description = ""
 
+            for skill in learning_map["stages"]:
+                for skill_data in skill["skills"]:
+                    if get_skill_name(skill_data) == next_skill_name: 
+                        next_step_description = get_skill_description(skill_data)
+                        break
+                if next_step_description:
+                    break
+        else:
+            next_step = "Keep learning!"
+            next_step_description = ""
 
     if stage_completion["is_complete"]:
         next_stage = find_next_stage(
@@ -205,6 +221,7 @@ def analyze():
         stage_completion=stage_completion,
         next_stage_progress=next_stage_progress,
         next_step=next_step,
+        next_step_description=next_step_description,
         get_skill_name=get_skill_name
     )
 

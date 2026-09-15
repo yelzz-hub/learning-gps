@@ -144,6 +144,12 @@
         <p>
             {{ next_step }}
         </p>
+
+        {% if next_step_description %}
+            <p> 
+                {{ next_step_description }}
+            </p>
+        {% endif %}
     </div>
 
     <div class="card result-card">
