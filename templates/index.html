@@ -135,11 +135,11 @@
 
                                     <input 
                                         type="checkbox" 
-                                        id="{{ get_skill_name(skill) }}" 
+                                        id="{{ get_skill_name(skill) | lower | replace(' ', '_') }}"
                                         name="learned_skills" 
                                         value="{{ get_skill_name(skill) }}"
                                     >
-                                    <label for="{{ get_skill_name(skill) }}">
+                                    <label for="{{ get_skill_name(skill) | lower | replace(' ', '_') }}">
                                         {{ get_skill_name(skill) }}
                                     </label>
                                 </div>

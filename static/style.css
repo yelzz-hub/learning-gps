@@ -480,13 +480,6 @@ form[action="/analyze"] .goal-option.disabled {
     gap: 8px;
 }
 
-/* =========================
-   SUBMIT
-   ========================= */
-
-form[action="/analyze"] .submit-area {
-    text-align: center;
-}
 
 /* =========================
    MOBILE
@@ -496,72 +489,14 @@ form[action="/analyze"] .submit-area {
     .skills-list {
         grid-template-columns: 1fr;
     }
-}
-/* =========================
-   INDEX REDESIGN OVERRIDE
-   ========================= */
 
-.page-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.page-header h1 {
-    margin-bottom: 8px;
-}
-
-.page-header p {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: 16px;
-}
-
-form[action="/analyze"] .goal-option label {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-}
-
-.option-status {
-    font-size: 13px;
-    color: var(--text-muted);
-    font-weight: 400;
-}
-
-form[action="/analyze"] .goal-option.disabled {
-    opacity: 0.5;
-}
-
-.stage-section {
-    margin-top: 28px;
-}
-
-.stage-section h3 {
-    margin-top: 0;
-}
-
-.skills-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-}
-
-form[action="/analyze"] .submit-area {
-    text-align: center;
-}
-
-@media (max-width: 600px) {
-    .skills-list {
-        grid-template-columns: 1fr;
-    }
     .progress-grid {
         grid-template-columns: 1fr;
     }
-    .map-skills{
+
+    .map-skills {
         grid-template-columns: 1fr;
     }
-
 }
 
 /* =========================
@@ -579,7 +514,7 @@ form[action="/analyze"] .submit-area {
     padding: 8px 14px;
     background-color: rgba(45, 212, 191, 0.08);
     border: 1px solid rgba(45, 212, 191, 0.2);
-    border-radius: war(--radius-pill);
+    border-radius: var(--radius-pill);
     color: var(--accent-teal);
     font-size: 14px;
     font-weight: 600;
@@ -627,11 +562,11 @@ form[action="/analyze"] .submit-area {
 
 .completed-item {
     background: rgba(45, 212, 191, 0.06);
-    color: var(--accent-teal)
+    color: var(--accent-teal);
 }
 
 .missing-item {
-    background: rgba(251, 191, 36, 0,06);
+    background: rgba(251, 191, 36, 0.06);
     color: var(--accent-gold);
 }
 
@@ -651,7 +586,7 @@ form[action="/analyze"] .submit-area {
 
 .map-stage {
     padding: 18px;
-    background: rgba(225, 255, 255, 0.025);
+    background: rgba(255, 255, 255, 0.025);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
 }
@@ -695,7 +630,7 @@ form[action="/analyze"] .submit-area {
 
 .map-skill:hover {
     transform: translateY(-2px);
-    background-color: var(--bg-card-hover)
+    background-color: var(--bg-card-hover);
 }
 
 /* =========================
