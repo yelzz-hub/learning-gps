@@ -718,3 +718,19 @@ form[action="/analyze"] .submit-area {
     border-radius: var(--radius-pill);
     transition: width 0.4s ease;
 }
+
+/*============*/
+
+.resource-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--accent-teal);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.resource-link:hover {
+    color: #5eead4;
+    text-decoration: underline;
+}

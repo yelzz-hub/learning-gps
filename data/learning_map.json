@@ -12,13 +12,41 @@
             "id": 1,
             "name": "Python Fundamentals",
             "skills": [
-                "Variables",
-                "Data Types",
-                "Conditions",
-                "Loops",
-                "Functions",
-                "Lists",
-                "Dictionaries"
+                {
+                    "name": "Variables",
+                    "description": "Learn how to store and use data in Python using variables.",
+                    "resource": "https://www.w3schools.com/python/python_variables.asp"
+                },
+                {
+                    "name": "Data Types",
+                    "description": "Learn how Python represents different kinds of data such as strings, numbers, and booleans.",
+                    "resource": "https://www.w3schools.com/python/python_datatypes.asp"
+                },
+                {
+                    "name": "Conditions",
+                    "description": "Learn how to make decisions in Python using if, elif, and else.",
+                    "resource": "https://www.w3schools.com/python/python_conditions.asp"
+                },
+                {
+                    "name": "Loops",
+                    "description": "Learn how to repeat code using for and while loops.",
+                    "resource": "https://www.w3schools.com/python/python_for_loops.asp"
+                },
+                {
+                    "name": "Functions",
+                    "description": "Learn how to organize reusable blocks of code using functions.",
+                    "resource": "https://www.w3schools.com/python/python_functions.asp"
+                },
+                {
+                    "name": "Lists",
+                    "description": "Learn how to store multiple values in an ordered and changeable collection.",
+                    "resource": "https://www.w3schools.com/python/python_lists.asp"
+                },
+                {
+                    "name": "Dictionaries",
+                    "description": "Learn how to store data using key-value pairs in Python.",
+                    "resource": "https://www.w3schools.com/python/python_dictionaries.asp"
+                }
             ]
         },
 
@@ -27,24 +55,29 @@
             "name": "Intermediate Python",
             "skills": [
                 {
-                    "name": "OOP", 
-                    "description": "Learn how to organize Python code using classes and objects."
+                    "name": "OOP",
+                    "description": "Learn how to organize Python code using classes and objects.",
+                    "resource": "https://www.geeksforgeeks.org/python/python-classes-and-objects/"
                 },
                 {
                     "name": "Modules",
-                    "description": "Learn how to organize code into reusable Python files."
+                    "description": "Learn how to organize code into reusable Python files.",
+                    "resource": "https://docs.python.org/3/tutorial/modules.html"
                 },
                 {
                     "name": "File Handling",
-                    "description": "Learn how to read and write files using Python."
+                    "description": "Learn how to read and write files using Python.",
+                    "resource": "https://www.geeksforgeeks.org/python/file-handling-python/"
                 },
                 {
                     "name": "Exception Handling",
-                    "description": "Learn how to handle errors safely using try and except."
+                    "description": "Learn how to handle errors safely using try and except.",
+                    "resource": "https://docs.python.org/3/tutorial/errors.html"
                 },
                 {
                     "name": "APIs",
-                    "description": "Learn how Python communicates with external services through APIs."
+                    "description": "Learn how Python communicates with external services through APIs.",
+                    "resource": "https://requests.readthedocs.io/en/latest/"
                 }
             ]
         },
@@ -53,12 +86,36 @@
             "id": 3,
             "name": "Python Project Building",
             "skills": [
-                "Project Structure",
-                "Using Functions in Projects",
-                "Using Classes in Projects",
-                "Working with APIs",
-                "Reading and Writing Files",
-                "Debugging"
+                {
+                    "name": "Project Structure",
+                    "description": "Learn how to organize files and folders in a Python project.",
+                    "resource": "https://docs.python.org/3/tutorial/modules.html"
+                },
+                {
+                    "name": "Using Functions in Projects",
+                    "description": "Learn how to use functions to divide project logic into reusable parts.",
+                    "resource": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions"
+                },
+                {
+                    "name": "Using Classes in Projects",
+                    "description": "Learn how to use classes and objects to organize larger Python projects.",
+                    "resource": "https://docs.python.org/3/tutorial/classes.html"
+                },
+                {
+                    "name": "Working with APIs",
+                    "description": "Learn how to connect Python applications to external APIs.",
+                    "resource": "https://requests.readthedocs.io/en/latest/"
+                },
+                {
+                    "name": "Reading and Writing Files",
+                    "description": "Learn how to work with files for storing and retrieving data.",
+                    "resource": "https://docs.python.org/3/tutorial/inputoutput.html"
+                },
+                {
+                    "name": "Debugging",
+                    "description": "Learn how to find and fix problems in Python programs.",
+                    "resource": "https://docs.python.org/3/library/pdb.html"
+                }
             ]
         },
 
@@ -66,10 +123,26 @@
             "id": 4,
             "name": "Data Fundamentals",
             "skills": [
-                "CSV",
-                "JSON",
-                "Data Structures",
-                "Basic Data Handling"
+                {
+                    "name": "CSV",
+                    "description": "Learn how to read and write tabular data using CSV files.",
+                    "resource": "https://docs.python.org/3/library/csv.html"
+                },
+                {
+                    "name": "JSON",
+                    "description": "Learn how to work with JSON data for storing and exchanging structured information.",
+                    "resource": "https://docs.python.org/3/library/json.html"
+                },
+                {
+                    "name": "Data Structures",
+                    "description": "Learn how to organize and manage data using Python data structures.",
+                    "resource": "https://docs.python.org/3/tutorial/datastructures.html"
+                },
+                {
+                    "name": "Basic Data Handling",
+                    "description": "Learn the basic techniques for loading, organizing, accessing, and processing data.",
+                    "resource": "https://docs.python.org/3/tutorial/datastructures.html"
+                }
             ]
         },
 
@@ -77,10 +150,26 @@
             "id": 5,
             "name": "Data Analysis",
             "skills": [
-                "Pandas",
-                "NumPy",
-                "Data Cleaning",
-                "Data Visualization"
+                {
+                    "name": "Pandas",
+                    "description": "Learn how to manipulate and analyze structured data using Pandas.",
+                    "resource": "https://pandas.pydata.org/docs/getting_started/intro_tutorials/"
+                },
+                {
+                    "name": "NumPy",
+                    "description": "Learn how to work with numerical data and arrays using NumPy.",
+                    "resource": "https://numpy.org/learn/"
+                },
+                {
+                    "name": "Data Cleaning",
+                    "description": "Learn how to identify and fix missing, incorrect, or inconsistent data.",
+                    "resource": "https://pandas.pydata.org/docs/getting_started/intro_tutorials/09_timeseries.html"
+                },
+                {
+                    "name": "Data Visualization",
+                    "description": "Learn how to visualize data using charts and graphs.",
+                    "resource": "https://matplotlib.org/stable/tutorials/pyplot.html"
+                }
             ]
         },
 
@@ -88,10 +177,26 @@
             "id": 6,
             "name": "Machine Learning",
             "skills": [
-                "Supervised Learning",
-                "Unsupervised Learning",
-                "Model Training",
-                "Model Evaluation"
+                {
+                    "name": "Supervised Learning",
+                    "description": "Learn how models learn from labeled training data to make predictions.",
+                    "resource": "https://scikit-learn.org/stable/supervised_learning.html"
+                },
+                {
+                    "name": "Unsupervised Learning",
+                    "description": "Learn how models discover patterns in data without labeled answers.",
+                    "resource": "https://scikit-learn.org/stable/unsupervised_learning.html"
+                },
+                {
+                    "name": "Model Training",
+                    "description": "Learn how to train machine learning models using data.",
+                    "resource": "https://scikit-learn.org/stable/getting_started.html"
+                },
+                {
+                    "name": "Model Evaluation",
+                    "description": "Learn how to measure and evaluate the performance of machine learning models.",
+                    "resource": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+                }
             ]
         },
 
@@ -99,9 +204,21 @@
             "id": 7,
             "name": "Deep Learning",
             "skills": [
-                "Neural Networks",
-                "Deep Learning Frameworks",
-                "Training Neural Networks"
+                {
+                    "name": "Neural Networks",
+                    "description": "Learn the basic concepts behind neural networks and how they learn patterns.",
+                    "resource": "https://www.tensorflow.org/guide/keras/sequential_model"
+                },
+                {
+                    "name": "Deep Learning Frameworks",
+                    "description": "Learn how to use frameworks such as TensorFlow or PyTorch to build deep learning models.",
+                    "resource": "https://pytorch.org/tutorials/"
+                },
+                {
+                    "name": "Training Neural Networks",
+                    "description": "Learn how to train neural networks using data, loss functions, and optimization.",
+                    "resource": "https://www.tensorflow.org/tutorials/quickstart/beginner"
+                }
             ]
         },
 

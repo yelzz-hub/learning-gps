@@ -150,6 +150,22 @@
                 {{ next_step_description }}
             </p>
         {% endif %}
+
+        {% if stage_completion.is_complete and next_stage %}
+            <p>
+                🚀 <strong>Next Up:</strong> {{ next_stage.name }}
+            </p>
+        {% endif %}
+
+        {% if next_step_resource %}
+            <p> 
+                📚 Recommended Resource
+            </p>
+
+            <a href="{{ next_step_resource }}" target="_blank" class="resource-link">
+                Learn this skill →
+            </a>
+        {% endif %}
     </div>
 
     <div class="card result-card">

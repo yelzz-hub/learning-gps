@@ -14,6 +14,11 @@ def get_skill_description(skill):
         return skill.get("description", "")
     return ""
 
+def get_skill_resource(skill):
+    if isinstance(skill, dict):
+        return skill.get("resource", "")
+    return ""
+
 def load_learning_map():
     with open("data/learning_map.json", "r") as file:
         learning_map = json.load(file)
@@ -114,7 +119,7 @@ def check_stage_completion(current_stage, learning_map, matched_skills):
         if skill_name not in matched_skills:
             missing_skills.append(skill_name)
 
-        is_complete = len(completed_skills) == total_skills
+    is_complete = len(completed_skills) == total_skills
 
     return {
         "stage": stage_data["name"],
@@ -134,7 +139,7 @@ def check_next_stage_progress(next_stage, matched_skills):
         skill_name = get_skill_name(skill)
 
         if skill_name in matched_skills:
-            completed_skills.append(skill)
+            completed_skills.append(skill_name)
 
     total_skills = len(next_stage["skills"])
 
@@ -175,21 +180,32 @@ def analyze():
         matched_skills
     )
 
-    if stage_completion["is_complete"]:
+    next_step_resource = ""
+
+    if current_stage["stage"] == "Roadmap Complete":
+        next_step = "🎉 You have completed the entire roadmap!"
+        next_step_description = ""
+
+    elif stage_completion["is_complete"]:
         next_step = "You are ready to move to the next stage!"
         next_step_description = ""
+
     else:
         missing_skills = stage_completion["missing_skills"]
 
         if missing_skills:
             next_skill_name = missing_skills[0]
+
             next_step = f"Focus on: {next_skill_name}"
+
             next_step_description = ""
+            next_step_resource = ""
 
             for skill in learning_map["stages"]:
                 for skill_data in skill["skills"]:
                     if get_skill_name(skill_data) == next_skill_name: 
                         next_step_description = get_skill_description(skill_data)
+                        next_step_resource = get_skill_resource(skill_data)
                         break
                 if next_step_description:
                     break
@@ -222,6 +238,7 @@ def analyze():
         next_stage_progress=next_stage_progress,
         next_step=next_step,
         next_step_description=next_step_description,
+        next_step_resource=next_step_resource,
         get_skill_name=get_skill_name
     )
 
