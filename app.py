@@ -7,41 +7,30 @@ app = Flask(__name__)
 def get_skill_name(skill):
     if isinstance(skill, dict):
         return skill["name"]
+    
     return skill
+
 
 def get_skill_description(skill):
     if isinstance(skill, dict):
         return skill.get("description", "")
+    
     return ""
+
 
 def get_skill_resource(skill):
     if isinstance(skill, dict):
         return skill.get("resource", "")
+    
     return ""
+
 
 def load_learning_map():
     with open("data/learning_map.json", "r") as file:
         learning_map = json.load(file)
+
     return learning_map
 
-
-def calculate_stage_scores(matched_skills, learning_map):
-    stage_scores = []
-
-    for stage in learning_map["stages"]:
-        score = 0
-
-        for skill in stage["skills"]:
-
-            if get_skill_name(skill) in matched_skills:
-                score += 1
-
-        stage_scores.append({
-            "stage": stage["name"],
-            "score": score
-        })
-
-    return stage_scores
 
 def find_current_stage_by_order(learning_map, matched_skills):
     for stage in learning_map["stages"]:
@@ -51,6 +40,7 @@ def find_current_stage_by_order(learning_map, matched_skills):
             continue
 
         is_complete = True
+
         for skill in stage_skills:
             if get_skill_name(skill) not in matched_skills:
                 is_complete = False
@@ -61,6 +51,7 @@ def find_current_stage_by_order(learning_map, matched_skills):
             for skill in stage_skills: 
                 if get_skill_name(skill) in matched_skills:
                     completed_count += 1
+
             return {
                 "stage": stage["name"],
                 "score": completed_count
@@ -83,7 +74,9 @@ def find_next_stage(current_stage, learning_map):
                 return None
             
             return learning_map["stages"][next_index]
+        
     return None
+
 
 def check_stage_completion(current_stage, learning_map, matched_skills):
     if current_stage["stage"] == "Roadmap Complete":
@@ -100,6 +93,7 @@ def check_stage_completion(current_stage, learning_map, matched_skills):
     for stage in learning_map["stages"]:
         if stage["name"] == current_stage["stage"]:
             stage_data = stage
+            break
 
     total_skills = len(stage_data["skills"])
 
@@ -129,25 +123,6 @@ def check_stage_completion(current_stage, learning_map, matched_skills):
         "is_complete": is_complete
     }
 
-def check_next_stage_progress(next_stage, matched_skills):
-    if next_stage is None:
-        return None
-
-    completed_skills = []
-
-    for skill in next_stage["skills"]:
-        skill_name = get_skill_name(skill)
-
-        if skill_name in matched_skills:
-            completed_skills.append(skill_name)
-
-    total_skills = len(next_stage["skills"])
-
-    return {
-        "completed_skills": completed_skills,
-        "completed_count": len(completed_skills),
-        "total_skills": total_skills
-    }
 
 @app.route("/")
 def home():
@@ -159,18 +134,14 @@ def home():
         get_skill_name=get_skill_name
     )
 
+
 @app.route("/analyze", methods=["POST"])
 def analyze():
     goal = request.form["goal"]
-
     matched_skills = request.form.getlist("learned_skills")
 
     learning_map = load_learning_map()
 
-    stage_scores = calculate_stage_scores(
-        matched_skills,
-        learning_map
-    )
 
     current_stage = find_current_stage_by_order(learning_map, matched_skills)
 
@@ -199,14 +170,14 @@ def analyze():
             next_step = f"Focus on: {next_skill_name}"
 
             next_step_description = ""
-            next_step_resource = ""
 
-            for skill in learning_map["stages"]:
-                for skill_data in skill["skills"]:
+            for stage in learning_map["stages"]:
+                for skill_data in stage["skills"]:
                     if get_skill_name(skill_data) == next_skill_name: 
                         next_step_description = get_skill_description(skill_data)
                         next_step_resource = get_skill_resource(skill_data)
                         break
+
                 if next_step_description:
                     break
         else:
@@ -221,21 +192,14 @@ def analyze():
     else:
         next_stage = None
 
-    next_stage_progress = check_next_stage_progress(
-        next_stage,
-        matched_skills
-    )
-
     return render_template(
         "result.html",
         goal=goal,
         learning_map=learning_map,
         matched_skills=matched_skills,
         current_stage=current_stage,
-        stage_scores=stage_scores,
         next_stage=next_stage,
         stage_completion=stage_completion,
-        next_stage_progress=next_stage_progress,
         next_step=next_step,
         next_step_description=next_step_description,
         next_step_resource=next_step_resource,
