@@ -131,19 +131,37 @@
 
                             {% for skill in stage["skills"] %}
 
+                                {% set skill_name = get_skill_name(skill) %}
+                                {% set skill_id = skill_name | lower | replace(' ', '_') %}
+
                                 <div class="skill-item">
 
-                                    <input 
-                                        type="checkbox" 
-                                        id="{{ get_skill_name(skill) | lower | replace(' ', '_') }}"
-                                        name="learned_skills" 
-                                        value="{{ get_skill_name(skill) }}"
-                                    >
-                                    <label for="{{ get_skill_name(skill) | lower | replace(' ', '_') }}">
-                                        {{ get_skill_name(skill) }}
+                                    <span class="skill-name">
+                                        {{ skill_name }}
+                                    </span>
+
+                                    <label>
+                                        <input 
+                                            type="radio"
+                                            name="skill_status_{{ skill_id }}"
+                                            value="known"
+                                        >
+                                        Known
                                     </label>
+
+                                    <label>
+                                        <input 
+                                            type="radio"
+                                            name="skill_status_{{ skill_id }}"
+                                            value="unsure"
+                                        >
+                                        Unsure
+                                    </label>
+
                                 </div>
+
                             {% endfor %}
+                        
                         </div>
                     </div>
                 {% endif %}

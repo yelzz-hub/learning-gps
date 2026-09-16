@@ -138,12 +138,31 @@ def home():
 @app.route("/analyze", methods=["POST"])
 def analyze():
     goal = request.form["goal"]
-    matched_skills = request.form.getlist("learned_skills")
 
     learning_map = load_learning_map()
 
+    known_skills = []
+    unsure_skills = []
 
-    current_stage = find_current_stage_by_order(learning_map, matched_skills)
+    for stage in learning_map["stages"]:
+        for skill in stage["skills"]:
+
+            skill_name = get_skill_name(skill)
+            skill_id = skill_name.lower().replace(" ", "_")
+
+            status = request.form.get(f"skill_status_{skill_id}")
+
+            if status == "known":
+                known_skills.append(skill_name)
+            elif status == "unsure":
+                unsure_skills.append(skill_name)
+
+    matched_skills = known_skills
+
+    current_stage = find_current_stage_by_order(
+        learning_map, 
+        matched_skills
+    )
 
     stage_completion = check_stage_completion(
         current_stage,
@@ -197,6 +216,7 @@ def analyze():
         goal=goal,
         learning_map=learning_map,
         matched_skills=matched_skills,
+        unsure_skills=unsure_skills,
         current_stage=current_stage,
         next_stage=next_stage,
         stage_completion=stage_completion,
