@@ -739,3 +739,97 @@ form[action="/analyze"] .goal-option.disabled {
     color: #0f1117;
     font-weight: 700;
 }
+
+/* =========================
+   AI RESPONSE CONTENT
+   ========================= */
+
+.ai-content {
+    margin-top: 8px;
+    line-height: 1.6;
+}
+
+.ai-content p {
+    margin: 8px, 0;
+}
+
+.ai-content h1,
+.ai-content h2,
+.ai-content h3 {
+    margin: 16px 0 8px;
+}
+
+.ai-content ul,
+.ai-content ol {
+    margin: 8px 0;
+    padding-left: 24px;
+}
+
+.ai-content coder {
+    padding: 2px 6px;
+    border-radius: 6px;
+    background-color: rgba(225, 255, 255, 0.08);
+}
+
+.ai-content pre {
+    margin: 12px 0;
+    padding: 14px;
+    overflow-x: auto;
+    border-radius: 10px;
+    background-color: var(--bg-input);
+}
+
+.ai-content pre code {
+    padding: 0;
+    background: none;
+}
+
+.chat-message {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.ai-content {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.ai-content table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin: 12px 0;
+}
+
+.ai-content th,
+.ai-content td {
+    padding: 8px 10px;
+    border: 1px solid var(--border-subtle);
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.ai-content strong {
+    color: #aeb8c7;
+    font-weight: 600;
+}
+
+.ai-content h1,
+.ai-content h2,
+.ai-content h3 {
+    color: #e2e8f0;
+}
+
+.ai-conten a {
+    color: var(--text-main);
+    text-decoration: underline;
+}
+
+.ai-content a:hover {
+    color: var(--accent-teal);
+}

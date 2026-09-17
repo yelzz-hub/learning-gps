@@ -3,6 +3,7 @@
 <head>
     <title>Learning GPS - Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <header class="page-header">
@@ -310,7 +311,15 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             fetch("/chat", {
-                method: "POST"
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    message: message
+                })
             })
             .then(response => response.json())
             .then(data => {
@@ -324,31 +333,34 @@
 
                 aiMessage.innerHTML = `
                     <span class="chat-role">🤖 AI</span>
-                    <p>${data.reply}</p>
+                    <div class="ai-content">${marked.parse(data.reply)}</div>
                 `;
 
                 chatBox.appendChild(aiMessage);
 
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-            });
-        }
+            })
+            .catch(error => {
+            console.error("Chat error:", error);
 
-        sendButton.addEventListener(
-            "click",
-            sendMessage
-        );
+            const errorMessage = document.createElement("div");
 
-        chatInput.addEventListener(
-            "keydown",
-            function(event) {
-                
-                if (event.key === "Enter") {
-                    sendMessage();
-                }
+            errorMessage.classList.add(
+                "chat-message",
+                "ai-message"
+            );
 
-            }
-        );
+            errorMessage.innerHTML = `
+                <span class="chat-role">⚠️ Error</span>
+                <p>Something went wrong. Check the Flask terminal.</p>
+            `;
+
+            chatBox.appendChild(errorMessage);
+        });
+    }
+
+    sendButton.addEventListener("click", sendMessage);
 
     </script>
 

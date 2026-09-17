@@ -1,8 +1,19 @@
 import json
+import os
 
 from flask import Flask, render_template, request
+from dotenv import load_dotenv
+from groq import Groq
 
 app = Flask(__name__)
+
+load_dotenv()
+
+api_key = os.getenv("GROQ_API_KEY")
+
+client = Groq(
+    api_key=api_key
+)
 
 def get_skill_name(skill):
     if isinstance(skill, dict):
@@ -229,12 +240,28 @@ def analyze():
 
 @app.route("/chat", methods=["POST"])
 def chat():
+    data = request.get_json()
+
+    print("Data diterima:", data)
+
+    message = data.get("message", "")
+
+    print("Message:", message)
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {
+                "role": "user",
+                "content": message
+            }
+        ]
+    )
+    
+    reply = response.choices[0].message.content
+
+    print("Reply:", reply)
 
     return {
-        "reply": "Hello! Flask received your message."
+        "reply": reply
     }
-
-
-
-    
-
