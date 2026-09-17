@@ -15,6 +15,8 @@ client = Groq(
     api_key=api_key
 )
 
+chat_history = []
+
 def get_skill_name(skill):
     if isinstance(skill, dict):
         return skill["name"]
@@ -237,7 +239,6 @@ def analyze():
             get_skill_name=get_skill_name
         )
 
-
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
@@ -248,17 +249,22 @@ def chat():
 
     print("Message:", message)
 
+    chat_history.append({
+        "role": "user",
+        "content": message
+    })
+
     response = client.chat.completions.create(
         model="openai/gpt-oss-20b",
-        messages=[
-            {
-                "role": "user",
-                "content": message
-            }
-        ]
+        messages=chat_history
     )
     
     reply = response.choices[0].message.content
+
+    chat_history.append({
+        "role": "assistant",
+        "content": reply
+    })
 
     print("Reply:", reply)
 
