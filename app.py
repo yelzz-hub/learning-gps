@@ -247,16 +247,57 @@ def chat():
 
     message = data.get("message", "")
 
+    learning_context = data.get("learning_context", {})
+
+    print("Learning Context:", learning_context)
+
     print("Message:", message)
 
     chat_history.append({
         "role": "user",
         "content": message
     })
+    context_message = {
+        "role": "system",
+        "content": f"""
+You are the AI Learning Assistant inside a learning roadmap application called Learning GPS.
+
+IMPORTANT:
+The following information is already known about the user.
+Do NOT ask the user to provide this information again.
+Use it when answering their questions.
+
+USER'S LEARNING CONTEXT
+
+Goal:
+{learning_context.get("goal", "")}
+
+Known skills:
+{learning_context.get("known_skills", [])}
+
+Unsure skills:
+{learning_context.get("unsure_skills", [])}
+
+Current stage:
+{learning_context.get("current_stage", "")}
+
+Next step:
+{learning_context.get("next_step", "")}
+
+INSTRUCTIONS:
+
+1. Answer questions based on the user's Learning GPS context whenever relevant.
+2. Do not ask for information that is already provided above.
+3. If the user asks what they should learn next, use their current stage, known skills, unsure skills, and next step.
+4. If the user asks about a skill they are unsure about, explain that skill at a beginner-friendly level.
+5. Keep recommendations aligned with the user's goal.
+6. If the user asks something unrelated to their learning journey, answer normally.
+"""
+}
 
     response = client.chat.completions.create(
         model="openai/gpt-oss-20b",
-        messages=chat_history
+        messages=[context_message] + chat_history
     )
     
     reply = response.choices[0].message.content

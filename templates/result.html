@@ -279,11 +279,27 @@
 
     </div>
 
+    <script id="learning-context" type="application/json">
+    {
+        "goal": {{ goal | tojson }},
+        "known_skills": {{ matched_skills | tojson }},
+        "unsure_skills": {{ unsure_skills | tojson }},
+        "current_stage": {{ current_stage.stage | tojson }},
+        "next_step": {{ next_step | tojson }}
+    }
+    </script>
+
 
     <script>
         const chatInput = document.getElementById("chat-input");
         const sendButton = document.getElementById("send-button");
         const chatBox = document.querySelector(".chat-box");
+
+        const learningContext = JSON.parse(
+            document.getElementById("learning-context").textContent
+        );
+
+        console.log("Learning Context:", learningContext);
 
         function sendMessage() {
             const message = chatInput.value.trim();
@@ -318,7 +334,8 @@
                 },
 
                 body: JSON.stringify({
-                    message: message
+                    message: message,
+                    learning_context: learningContext
                 })
             })
             .then(response => response.json())
@@ -361,6 +378,7 @@
     }
 
     sendButton.addEventListener("click", sendMessage);
+
 
     </script>
 
