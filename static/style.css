@@ -669,3 +669,73 @@ form[action="/analyze"] .goal-option.disabled {
     color: #5eead4;
     text-decoration: underline;
 }
+
+
+/* =========================
+   CHATBOX
+   ========================= */
+
+.chat-box {
+    width: 100%;
+    max-width: 900px;
+    min-height: 300px;
+    max-height: 600px;
+    padding: 20px;
+    margin: 20px auto;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-suble);
+    border-radius: var(--radius-md);
+    overflow-y: auto;
+}
+
+.chat-message {
+    max-width: 80%;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    border-radius: var(--radius-md);
+}
+
+.ai-message {
+    background: rgba(45, 212, 191, 0.06);
+}
+
+.chat-role {
+    font-weight: 700;
+    color: var(--accent-teal);
+}
+
+.chat-message p {
+    margin: 6px 0 0;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 10p;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.chat-input-area input {
+    flex: 1;
+    min-width: 0;
+    padding: 13px 16px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    color: var(--text-main);
+    outline: none;
+}
+
+.chat-input-area input:focus {
+    border-color: var(--accent-teal);
+}
+
+.chat-input-area button {
+    padding: 13px 22px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background-color: var(--accent-teal);
+    color: #0f1117;
+    font-weight: 700;
+}

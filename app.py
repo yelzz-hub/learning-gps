@@ -212,17 +212,29 @@ def analyze():
         next_stage = None
 
     return render_template(
-        "result.html",
-        goal=goal,
-        learning_map=learning_map,
-        matched_skills=matched_skills,
-        unsure_skills=unsure_skills,
-        current_stage=current_stage,
-        next_stage=next_stage,
-        stage_completion=stage_completion,
-        next_step=next_step,
-        next_step_description=next_step_description,
-        next_step_resource=next_step_resource,
-        get_skill_name=get_skill_name
-    )
+            "result.html",
+            goal=goal,
+            learning_map=learning_map,
+            matched_skills=matched_skills,
+            unsure_skills=unsure_skills,
+            current_stage=current_stage,
+            next_stage=next_stage,
+            stage_completion=stage_completion,
+            next_step=next_step,
+            next_step_description=next_step_description,
+            next_step_resource=next_step_resource,
+            get_skill_name=get_skill_name
+        )
+
+
+@app.route("/chat", methods=["POST"])
+def chat():
+
+    return {
+        "reply": "Hello! Flask received your message."
+    }
+
+
+
+    
 

@@ -188,6 +188,47 @@
     </div>
 
     <div class="card result-card">
+        <h3>🤖 AI LEARNING ASSISTANT</h3>
+
+        <p>
+            Ask me anything about your learning journey.
+        </p>
+
+        <div class="chat-box">
+
+            <div class="chat-message ai-message">
+                <span class="chat-role">🤖 AI</span>
+
+                <p>
+                    Hi! I'm your AI Learning Assistant. 
+                    You can ask me about your current skills,
+                    unsure skills, or what you should learn next.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="chat-input-area">
+
+            <input
+                type="text"
+                id="chat-input"
+                placeholder="Ask something..."
+            >
+
+            <button 
+                type="button"
+                id="send-button"
+            >
+                Send 
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="card result-card">
 
         <h2>🗺️ FULL LEARNING MAP</h2>
 
@@ -236,5 +277,80 @@
         </a>
 
     </div>
+
+
+    <script>
+        const chatInput = document.getElementById("chat-input");
+        const sendButton = document.getElementById("send-button");
+        const chatBox = document.querySelector(".chat-box");
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+
+            if (message === "") {
+                return;
+            }
+
+            const userMessage = document.createElement("div");
+
+            userMessage.classList.add(
+                "chat-message",
+                "user-message"
+            );
+
+            userMessage.innerHTML = `
+                <span class="chat-role">👤 You</span>
+                <p>${message}</p>
+            `;
+
+            chatBox.appendChild(userMessage);
+
+            chatInput.value = "";
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            fetch("/chat", {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                const aiMessage = document.createElement("div");
+
+                aiMessage.classList.add(
+                    "chat-message",
+                    "ai-message"
+                );
+
+                aiMessage.innerHTML = `
+                    <span class="chat-role">🤖 AI</span>
+                    <p>${data.reply}</p>
+                `;
+
+                chatBox.appendChild(aiMessage);
+
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+            });
+        }
+
+        sendButton.addEventListener(
+            "click",
+            sendMessage
+        );
+
+        chatInput.addEventListener(
+            "keydown",
+            function(event) {
+                
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+
+            }
+        );
+
+    </script>
+
 </body>
 </html>
