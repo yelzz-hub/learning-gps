@@ -825,11 +825,12 @@ form[action="/analyze"] .goal-option.disabled {
     color: #e2e8f0;
 }
 
-.ai-conten a {
-    color: var(--text-main);
+.ai-content a {
+    color: var(--accent-teal);
     text-decoration: underline;
 }
 
 .ai-content a:hover {
-    color: var(--accent-teal);
+    color: #5eead4;
+    text-decoration: none;
 }

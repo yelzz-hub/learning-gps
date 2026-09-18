@@ -247,16 +247,17 @@ def chat():
 
     message = data.get("message", "")
 
+    if not message.strip():
+        return {
+            "reply": "Please enter a message first."
+        }
+
     learning_context = data.get("learning_context", {})
 
     print("Learning Context:", learning_context)
 
     print("Message:", message)
 
-    chat_history.append({
-        "role": "user",
-        "content": message
-    })
     context_message = {
         "role": "system",
         "content": f"""
@@ -304,14 +305,27 @@ TUTOR RULES
 10. If the user asks something unrelated to their learning journey, answer normally.
 
 """
-}
+    }
 
-    response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
-        messages=[context_message] + chat_history
-    )
-    
-    reply = response.choices[0].message.content
+    try: 
+        response = client.chat.completions.create(
+            model="openai/gpt-oss-20b",
+            messages=[context_message] + chat_history
+        )
+
+        reply = response.choices[0].message.content\
+
+        chat_history.append({
+            "role": "user",
+            "content": message
+        })
+
+    except Exception as error:
+        print("AI Error:", error)
+
+        return {
+            "reply": "Sorry, something went wrong while contacting the AI."
+        }
 
     chat_history.append({
         "role": "assistant",
