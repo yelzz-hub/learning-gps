@@ -4,6 +4,8 @@
     <title>Learning GPS - Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
 </head>
 <body>
     <header class="page-header">
@@ -282,10 +284,11 @@
     <script id="learning-context" type="application/json">
     {
         "goal": {{ goal | tojson }},
-        "known_skills": {{ matched_skills | tojson }},
+        "learned_skills": {{ matched_skills | tojson }},
         "unsure_skills": {{ unsure_skills | tojson }},
+        "unlearned_skills": {{ unlearned_skills | tojson }},
         "current_stage": {{ current_stage.stage | tojson }},
-        "next_step": {{ next_step | tojson }}
+        "roadmap": {{ roadmap_sequence | tojson }}
     }
     </script>
 
@@ -315,10 +318,15 @@
                 "user-message"
             );
 
-            userMessage.innerHTML = `
-                <span class="chat-role">👤 You</span>
-                <p>${message}</p>
-            `;
+            const userRole = document.createElement("span");
+            userRole.classList.add("chat-role");
+            userRole.textContent = "👤 You";
+
+            const userText = document.createElement("p");
+            userText.textContent = message;
+
+            userMessage.appendChild(userRole);
+            userMessage.appendChild(userText);
 
             chatBox.appendChild(userMessage);
 
@@ -338,7 +346,17 @@
                     learning_context: learningContext
                 })
             })
-            .then(response => response.json())
+
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.reply || "Request failed.");
+                    });
+                }
+
+                return response.json();
+
+            })
             .then(data => {
 
                 const aiMessage = document.createElement("div");
@@ -348,10 +366,15 @@
                     "ai-message"
                 );
 
+                const safeHTML = DOMPurify.sanitize(
+                    marked.parse(data.reply)
+                );
+
                 aiMessage.innerHTML = `
                     <span class="chat-role">🤖 AI</span>
-                    <div class="ai-content">${marked.parse(data.reply)}</div>
+                    <div class="ai-content">${safeHTML}</div>
                 `;
+                
 
                 chatBox.appendChild(aiMessage);
 
@@ -370,7 +393,7 @@
 
             errorMessage.innerHTML = `
                 <span class="chat-role">⚠️ Error</span>
-                <p>Something went wrong. Check the Flask terminal.</p>
+                <p>${error.message}</p>
             `;
 
             chatBox.appendChild(errorMessage);

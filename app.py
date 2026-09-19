@@ -1,11 +1,12 @@
 import json
 import os
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 from dotenv import load_dotenv
 from groq import Groq
 
 app = Flask(__name__)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-change-this")
 
 load_dotenv()
 
@@ -15,7 +16,6 @@ client = Groq(
     api_key=api_key
 )
 
-chat_history = []
 
 def get_skill_name(skill):
     if isinstance(skill, dict):
@@ -43,6 +43,31 @@ def load_learning_map():
         learning_map = json.load(file)
 
     return learning_map
+
+def get_roadmap_sequence(learning_map):
+    roadmap = []
+
+    for stage in learning_map["stages"]:
+        for skill in stage["skills"]:
+            roadmap.append(skill["name"])
+
+    return roadmap
+
+
+def get_remaining_skills(roadmap_sequence, known_skills):
+    return [skill for skill in roadmap_sequence if skill not in known_skills]
+
+def get_unlearned_skills(
+        roadmap_sequence,
+        known_skills, 
+        unsure_skills
+):
+    return [
+        skill
+        for skill in roadmap_sequence
+        if skill not in known_skills
+        and skill not in unsure_skills
+    ]
 
 
 def find_current_stage_by_order(learning_map, matched_skills):
@@ -153,6 +178,7 @@ def analyze():
     goal = request.form["goal"]
 
     learning_map = load_learning_map()
+    roadmap_sequence = get_roadmap_sequence(learning_map)
 
     known_skills = []
     unsure_skills = []
@@ -171,6 +197,17 @@ def analyze():
                 unsure_skills.append(skill_name)
 
     matched_skills = known_skills
+
+    remaining_skills = get_remaining_skills(
+        roadmap_sequence,
+        known_skills
+    )
+
+    unlearned_skills = get_unlearned_skills(
+        roadmap_sequence,
+        known_skills, 
+        unsure_skills
+    )
 
     current_stage = find_current_stage_by_order(
         learning_map, 
@@ -230,22 +267,42 @@ def analyze():
             learning_map=learning_map,
             matched_skills=matched_skills,
             unsure_skills=unsure_skills,
+            remaining_skills=remaining_skills,
+            unlearned_skills=unlearned_skills,
             current_stage=current_stage,
             next_stage=next_stage,
             stage_completion=stage_completion,
             next_step=next_step,
             next_step_description=next_step_description,
             next_step_resource=next_step_resource,
+            roadmap_sequence=roadmap_sequence,
             get_skill_name=get_skill_name
         )
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.get_json()
+    data = request.get_json(silent=True)
 
     print("Data diterima:", data)
 
+    if not isinstance(data, dict):
+        return {
+            "reply": "Invalid request data."
+        }, 400
+
+    chat_history = session.get("chat_history", [])
+    
     message = data.get("message", "")
+
+    if not isinstance(message, str):
+        return {
+            "reply": "Invalid message."
+        }, 400
+
+    if len(message) > 2000:
+        return {
+            "reply": "Your message is too long. Please keep it under 2000 characters."
+        }, 400
 
     if not message.strip():
         return {
@@ -254,55 +311,58 @@ def chat():
 
     learning_context = data.get("learning_context", {})
 
-    print("Learning Context:", learning_context)
-
-    print("Message:", message)
+    print("LEARNING CONTEXT:", learning_context)
 
     context_message = {
         "role": "system",
         "content": f"""
 You are the AI Learning Assistant for Learning GPS.
 
-Your job is to help the user follow their personalized learning roadmap.
+Your job is to help the user with their learning journey based on the learning context provided below. 
 
 USER'S LEARNING CONTEXT
 
 Goal:
 {learning_context.get("goal", "")}
 
-Known skills:
-{learning_context.get("known_skills", [])}
+Learned skills:
+{learning_context.get("learned_skills", [])}
 
 Unsure skills:
 {learning_context.get("unsure_skills", [])}
 
+Unlearned skills:
+{learning_context.get("unlearned_skills", [])}
+
 Current stage:
 {learning_context.get("current_stage", "")}
 
-Next step:
-{learning_context.get("next_step", "")}
+Learning roadmap:
+{learning_context.get("roadmap", [])}
 
-TUTOR RULES
+Use the user's learning context when answering.
 
-1. Use the user's Learning GPS context when answering relevant questions.
+Consider:
+- what the user already knows
+- what the user is unsure about
+- what they have not learned yet
+- their current stage
+- their overall goal
+- the learning roadmap
 
-2. Do not ask the user for information that is already provided in the context.
+Reason about the user's question using this context.
 
-3. Prioritize the user's current stage and next step.
+Do not describe a learned skill as something the user still needs
+to learn.
 
-4. Do not unnecessarily jump to advanced topics that are far beyond the user's current stage.
+Keep explanations appropriate for the user's current level.
 
-5. If the user asks about a skill they are unsure about, explain it in a beginner-friendly way with simple examples.
+Do not overwhelm the user with unrelated advanced topics.
 
-6. If the user asks what they should learn next, recommend the next step from their Learning GPS roadmap.
+If the user asks what they should learn next, determine the most
+appropriate topic from their learning context and roadmap.
 
-7. If the user asks why they should learn something, explain its importance in relation to their current stage and goal.
-
-8. When useful, give small practical examples or exercises.
-
-9. Keep answers clear and focused. Do not overwhelm the user with unrelated technologies or advanced concepts.
-
-10. If the user asks something unrelated to their learning journey, answer normally.
+Use Markdown when useful.
 
 """
     }
@@ -310,10 +370,17 @@ TUTOR RULES
     try: 
         response = client.chat.completions.create(
             model="openai/gpt-oss-20b",
-            messages=[context_message] + chat_history
+            messages=[
+                context_message,
+                *chat_history,
+                {
+                    "role": "user",
+                    "content": message
+                }
+            ]
         )
 
-        reply = response.choices[0].message.content\
+        reply = response.choices[0].message.content
 
         chat_history.append({
             "role": "user",
@@ -332,8 +399,13 @@ TUTOR RULES
         "content": reply
     })
 
+    session["chat_history"] = chat_history
+
     print("Reply:", reply)
 
     return {
         "reply": reply
     }
+
+if __name__ == "__main__":
+    app.run(debug=True)
