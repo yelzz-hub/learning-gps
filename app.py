@@ -70,6 +70,23 @@ def get_unlearned_skills(
         and skill not in unsure_skills
     ]
 
+def get_following_skill(
+        roadmap_sequence,
+        next_skill_name,
+        known_skills,
+        unsure_skills
+):
+    if next_skill_name not in roadmap_sequence:
+        return None
+
+    next_step_index = roadmap_sequence.index(next_skill_name)
+
+    for skill in roadmap_sequence[next_step_index + 1:]:
+        if skill not in known_skills:
+            return skill
+
+    return None
+
 
 def find_current_stage_by_order(learning_map, matched_skills):
     for stage in learning_map["stages"]:
@@ -222,6 +239,7 @@ def analyze():
     )
 
     next_step_resource = ""
+    next_skill_name = None
 
     if current_stage["stage"] == "Roadmap Complete":
         next_step = "🎉 You have completed the entire roadmap!"
@@ -262,6 +280,17 @@ def analyze():
     else:
         next_stage = None
 
+    following_step = get_following_skill(
+        roadmap_sequence,
+        next_skill_name,
+        known_skills,
+        unsure_skills
+    )
+
+    print("NEXT SKILL:", next_skill_name)
+    print("NEXT STEP:", next_step)
+    print("FOLLOWING STEP:", following_step)
+
     return render_template(
             "result.html",
             goal=goal,
@@ -277,6 +306,7 @@ def analyze():
             next_step_description=next_step_description,
             next_step_resource=next_step_resource,
             roadmap_sequence=roadmap_sequence,
+            following_step=following_step,
             get_skill_name=get_skill_name
         )
 
@@ -338,6 +368,15 @@ Unlearned skills:
 Current stage:
 {learning_context.get("current_stage", "")}
 
+Next step determined by Learning GPS:
+{learning_context.get("next_step", "")}
+
+Next step description:
+{learning_context.get("next_step_description", "")}
+
+Following step:
+{learning_context.get("following_step", "")}
+
 Learning roadmap:
 {learning_context.get("roadmap", [])}
 
@@ -358,6 +397,42 @@ ANSWERING RULES
    Do not add information that the user did not ask for unless it is
    necessary for understanding the answer.
 
+3A. DO NOT AUTOMATICALLY REVEAL FUTURE STEPS.
+
+   When explaining a skill or answering a question about a concept,
+   focus only on the user's current question.
+
+   Do not mention the next skill or following skill anywhere in the answer,
+   including at the beginning, middle, or end.
+
+   Do not use phrases such as:
+   "next you will learn..."
+   "after this..."
+   "you are ready for..."
+   "the next concept is..."
+   or similar statements.
+
+   Only mention the next step or following step if the user explicitly asks
+   what they should learn next, what comes after the current skill,
+   or asks for a learning recommendation.
+
+   The Learning GPS next step and following step should guide the assistant
+   when relevant, but they should not be inserted into unrelated answers.
+
+3B. STAY WITHIN THE CURRENT LEARNING TOPIC.
+
+   When the user asks to learn or understand the current next skill,
+   focus primarily on that skill.
+
+   Do not teach other roadmap skills in detail unless they are necessary
+   to explain the current skill.
+
+   For example, if the current next skill is Data Types, focus on basic
+   Python data types relevant to the user's current level.
+
+   Do not expand the lesson into Lists, Dictionaries, Loops, Functions,
+   or other separate roadmap skills unless the user explicitly asks about them.
+
 4. Do not introduce advanced topics unless they are necessary to answer
    the user's question or the user explicitly asks about them.
 
@@ -367,32 +442,61 @@ ANSWERING RULES
 
 6. Do not describe a learned skill as something the user still needs to learn.
 
-7. If the user asks what they should learn next, determine the appropriate
-   topic using the learning context and roadmap.
+7. LEARNING GPS NEXT STEP IS AUTHORITATIVE.
 
-8. If the user asks about a concept they are unsure about, explain the concept
+   If the user asks what they should learn next, you MUST use
+   the value of `Next step determined by Learning GPS`.
+
+   Do not calculate the next skill yourself.
+   Do not infer the next skill from the roadmap.
+   Do not choose another skill from `Unlearned skills`.
+   Do not reorder the roadmap.
+
+   Only state the next step provided by Learning GPS.
+
+   IMPORTANT:
+   Do not automatically mention what comes after the next step.
+   Only discuss the following step if the user explicitly asks
+   what comes after the next step.
+
+
+8. LEARNING GPS FOLLOWING STEP IS AUTHORITATIVE.
+
+   If the user asks what comes after the current next step,
+   you MUST use the value of `Following step`.
+
+   Do not calculate the following skill yourself.
+   Do not infer it from the roadmap.
+   Do not reorder the roadmap.
+
+   The `Following step` value already accounts for skills
+   that the user has learned and should therefore be skipped.
+
+   Only state the following step provided by Learning GPS.
+
+9. If the user asks about a concept they are unsure about, explain the concept
    clearly rather than assuming they already understand it.
 
-9. If the user asks a follow-up question, use the previous conversation
+10. If the user asks a follow-up question, use the previous conversation
    to understand what they are referring to.
 
-10. Do not repeatedly suggest additional topics at the end of every answer.
+11. Do not repeatedly suggest additional topics at the end of every answer.
     Only suggest another topic when it is genuinely useful.
 
-11. Prioritize factual accuracy.
+12. Prioritize factual accuracy.
     If a concept has important distinctions, explain them correctly
     rather than simplifying them into something false.
 
-12. Use Markdown only when it improves readability.
+13. Use Markdown only when it improves readability.
     Avoid tables for simple explanations.
     Avoid multiple headings or sections when a simple explanation is enough.
 
-13. Adjust the amount of detail to the question.
+14. Adjust the amount of detail to the question.
     For simple definition questions, give a short explanation and a small example.
     For comparison, troubleshooting, or deeper conceptual questions, provide
     more detail when necessary.
 
-14. When discussing skills the user has not learned, do not list all
+15. When discussing skills the user has not learned, do not list all
     unlearned skills from the roadmap by default.
 
     Focus only on skills relevant to the user's current stage and
@@ -404,7 +508,7 @@ ANSWERING RULES
     Only discuss the full list of future unlearned skills if the user
     explicitly asks for the entire roadmap or all remaining skills.
 
-15. Distinguish clearly between learned skills, unsure skills, and unlearned skills.
+16. Distinguish clearly between learned skills, unsure skills, and unlearned skills.
 
     Learned skills are skills the user has marked as understood.
 
@@ -416,6 +520,45 @@ ANSWERING RULES
     If the user asks which skills they still do not understand,
     prioritize the user's unsure skills and do not add unlearned skills
     unless the user asks about skills they have not learned.
+
+17. WHEN INFORMATION CONFLICTS, TRUST THE LEARNING GPS DATA.
+
+    The Learning GPS context is authoritative for the user's learning status
+    and roadmap position.
+
+    Never assume that a skill is learned unless it appears in
+    `Learned skills`.
+
+    Never treat a skill in `Unsure skills` as learned.
+
+    Never override `Next step determined by Learning GPS`
+    with your own reasoning.
+
+    If the Learning GPS says:
+
+    Learned skills:
+    ['Variables', 'Conditions', 'Dictionaries']
+
+    Unsure skills:
+    ['Data Types', 'Functions']
+
+    Next step determined by Learning GPS:
+    Focus on: Data Types
+
+    then Data Types MUST be treated as the user's next skill to learn,
+    even if the roadmap contains other skills that could logically come before
+    or after it.
+
+18. DO NOT CONTRADICT THE LEARNING GPS.
+
+    Do not say that the user has learned a skill when it is not present
+    in `Learned skills`.
+
+    Do not say that the user has completed a skill when it is present
+    in `Unsure skills` or is absent from `Learned skills`.
+
+    If the Learning GPS says the next step is Data Types,
+    answer Data Types as the next step.
 
 Your goal is to act like a helpful learning assistant, not a textbook.
 """
