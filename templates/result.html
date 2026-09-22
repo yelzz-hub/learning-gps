@@ -4,7 +4,6 @@
     <title>Learning GPS - Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
 </head>
 <body>
@@ -313,6 +312,7 @@
 
             const userMessage = document.createElement("div");
 
+
             userMessage.classList.add(
                 "chat-message",
                 "user-message"
@@ -331,6 +331,23 @@
             chatBox.appendChild(userMessage);
 
             chatInput.value = "";
+
+            sendButton.disabled = true;
+            chatInput.disabled = true;
+
+            const loadingMessage = document.createElement("div");
+
+            loadingMessage.classList.add(
+                "chat-message",
+                "ai-message"
+            );
+
+            loadingMessage.innerHTML = `
+                <span class="chat-role">🤖 AI</span>
+                <p>AI is thinking...</p>
+            `;
+
+            chatBox.appendChild(loadingMessage);
 
             chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -358,6 +375,10 @@
 
             })
             .then(data => {
+                loadingMessage.remove()
+
+                sendButton.disabled = false;
+                chatInput.disabled = false;
 
                 const aiMessage = document.createElement("div");
 
@@ -378,27 +399,35 @@
 
                 chatBox.appendChild(aiMessage);
 
+                chatBox.scrollTop = chatBox.scrollHeight;
+
 
 
             })
             .catch(error => {
-            console.error("Chat error:", error);
+                loadingMessage.remove();
+                
+                sendButton.disabled = false;
+                chatInput.disabled = false;
+                
+                console.error("Chat error:", error);
 
-            const errorMessage = document.createElement("div");
+                const errorMessage = document.createElement("div");
 
-            errorMessage.classList.add(
-                "chat-message",
-                "ai-message"
-            );
+                errorMessage.classList.add(
+                    "chat-message",
+                    "ai-message"
+                );
 
-            errorMessage.innerHTML = `
-                <span class="chat-role">⚠️ Error</span>
-                <p>${error.message}</p>
-            `;
+                errorMessage.innerHTML = `
+                    <span class="chat-role">⚠️ Error</span>
+                    <p>${error.message}</p>
+                `;
 
-            chatBox.appendChild(errorMessage);
-        });
-    }
+                chatBox.appendChild(errorMessage);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+        }
 
     sendButton.addEventListener("click", sendMessage);
 
