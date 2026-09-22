@@ -8,10 +8,8 @@ from groq import Groq
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv(
-    "FLASK_SECRET_KEY", 
-    "dev-secret-change-this"
-)
+
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 api_key = os.getenv("GROQ_API_KEY")
 
