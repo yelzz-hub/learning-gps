@@ -5,10 +5,13 @@ from flask import Flask, render_template, request, session
 from dotenv import load_dotenv
 from groq import Groq
 
-app = Flask(__name__)
-app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-change-this")
-
 load_dotenv()
+
+app = Flask(__name__)
+app.secret_key = os.getenv(
+    "FLASK_SECRET_KEY", 
+    "dev-secret-change-this"
+)
 
 api_key = os.getenv("GROQ_API_KEY")
 
@@ -391,13 +394,15 @@ Use Markdown when useful.
         print("AI Error:", error)
 
         return {
-            "reply": "Sorry, something went wrong while contacting the AI."
-        }
+            "reply": "The AI service is currently unavailable. Please try again later."
+        }, 500
 
     chat_history.append({
         "role": "assistant",
         "content": reply
     })
+
+    chat_history = chat_history[-10:]
 
     session["chat_history"] = chat_history
 
