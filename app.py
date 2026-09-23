@@ -287,10 +287,6 @@ def analyze():
         unsure_skills
     )
 
-    print("NEXT SKILL:", next_skill_name)
-    print("NEXT STEP:", next_step)
-    print("FOLLOWING STEP:", following_step)
-
     return render_template(
             "result.html",
             goal=goal,
@@ -313,8 +309,6 @@ def analyze():
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json(silent=True)
-
-    print("Data diterima:", data)
 
     if not isinstance(data, dict):
         return {
@@ -341,8 +335,6 @@ def chat():
         }
 
     learning_context = data.get("learning_context", {})
-
-    print("LEARNING CONTEXT:", learning_context)
 
     context_message = {
         "role": "system",
@@ -599,8 +591,6 @@ Your goal is to act like a helpful learning assistant, not a textbook.
     chat_history = chat_history[-10:]
 
     session["chat_history"] = chat_history
-
-    print("Reply:", reply)
 
     return {
         "reply": reply
