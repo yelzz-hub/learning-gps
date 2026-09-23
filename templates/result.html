@@ -230,46 +230,93 @@
     </div>
 
 
-    <div class="card result-card">
+    <div class="card">
+    <h2>🗺️ Your Learning Roadmap</h2>
 
-        <h2>🗺️ FULL LEARNING MAP</h2>
+    <div class="roadmap">
 
-        <div class="learning-map">
+        {% for stage in learning_map["stages"] %}
 
-            {% for stage in learning_map["stages"] %}
+            {% set ns = namespace(stage_completed=true) %}
 
-                {% if stage["skills"] %}
+            {% for skill in stage["skills"] %}
+                {% if get_skill_name(skill) not in matched_skills %}
+                    {% set ns.stage_completed = false %}
+                {% endif %}
+            {% endfor %}
 
-                    <div class="map-stage">
+            <div class="roadmap-item
+                {% if stage["name"] == current_stage["stage"] %}
+                    current
+                {% elif stage["skills"] and ns.stage_completed %}
+                    completed
+                {% endif %}
+            ">
 
-                        <h4>{{ stage["name"] }}</h4>
+                <div class="roadmap-marker">
 
-                        <div class="map-skills">
-                
+                    {% if stage["name"] == "Starting Point" %}
+                        🚩
+
+                    {% elif stage["name"] == "AI Engineer" %}
+                        🤖
+
+                    {% elif stage["name"] == current_stage["stage"] %}
+                        ●
+
+                    {% elif ns.stage_completed %}
+                        ✓
+
+                    {% else %}
+                        ○
+                    {% endif %}
+
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h3>{{ stage["name"] }}</h3>
+
+                    {% if stage["name"] == current_stage["stage"] %}
+
+                        <span class="roadmap-status">
+                            Current Stage
+                        </span>
+
+                    {% elif stage["skills"] and ns.stage_completed %}
+
+                        <span class="roadmap-status">
+                            Completed
+                        </span>
+
+                    {% endif %}
+
+
+                    {% if stage["skills"] %}
+
+                        <div class="roadmap-skills">
+
                             {% for skill in stage["skills"] %}
-                            
-                                {% set skill_name = get_skill_name(skill) %}
 
-                                <div class="map-skill {% if skill_name in matched_skills %}skill-completed{% else %}skill-incomplete{% endif %}">
-
-
-                                    {% if skill_name in matched_skills %}
-                                        <span>✓</span>
-                                        <del>{{ skill_name }}</del>
-                                    {% else %}
-                                        <span>○</span>
-                                        <span>{{ skill_name }}</span>
-                                    {% endif %}
-                                </div>
+                                <span>
+                                    {{ get_skill_name(skill) }}
+                                </span>
 
                             {% endfor %}
+
                         </div>
-                    </div>
-            {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
         {% endfor %}
+
     </div>
 </div>
-
+    
     <br>
 
     <div class="back-button-area">
