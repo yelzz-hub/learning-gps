@@ -95,19 +95,13 @@ def find_current_stage_by_order(learning_map, matched_skills):
         if not stage_skills:
             continue
 
-        is_complete = True
+        completed_count = 0
 
         for skill in stage_skills:
-            if get_skill_name(skill) not in matched_skills:
-                is_complete = False
+            if get_skill_name(skill) in matched_skills:
+                completed_count += 1
 
-        if not is_complete:
-            completed_count = 0
-
-            for skill in stage_skills: 
-                if get_skill_name(skill) in matched_skills:
-                    completed_count += 1
-
+        if completed_count < len(stage_skills):
             return {
                 "stage": stage["name"],
                 "score": completed_count
@@ -154,19 +148,14 @@ def check_stage_completion(current_stage, learning_map, matched_skills):
     total_skills = len(stage_data["skills"])
 
     completed_skills = []
+    missing_skills = []
 
     for skill in stage_data["skills"]:
         skill_name = get_skill_name(skill)
 
         if skill_name in matched_skills:
             completed_skills.append(skill_name)
-
-    missing_skills = []
-
-    for skill in stage_data["skills"]:
-        skill_name = get_skill_name(skill)
-
-        if skill_name not in matched_skills:
+        else:
             missing_skills.append(skill_name)
 
     is_complete = len(completed_skills) == total_skills
