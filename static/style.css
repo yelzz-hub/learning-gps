@@ -38,6 +38,13 @@
     --radius-pill: 9999px;
 }
 
+/* =========================
+   ZOOM
+   ========================= */
+
+html {
+    zoom: 0.9;
+}
 
 /* =========================
    GLOBAL
@@ -415,7 +422,9 @@ textarea:focus {
 
 .page-header {
     text-align: center;
+    margin-top: 30px;
     margin-bottom: 40px;
+    padding-top: 40px;
 }
 
 .page-header h1 {
@@ -945,4 +954,12 @@ form[action="/analyze"] .goal-option.disabled {
 
     color: var(--text-muted);
     font-size: 13px;
+}
+
+/* =========================
+   AI Engineer option 
+========================= */
+
+form[action="/analyze"] .goal-option:not(.disabled) {
+    border: 1px solid var(--accent-gold);
 }
