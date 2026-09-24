@@ -683,7 +683,7 @@ form[action="/analyze"] .goal-option.disabled {
     padding: 20px;
     margin: 20px auto;
     background-color: var(--bg-input);
-    border: 1px solid var(--border-suble);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
     overflow-y: auto;
 }
@@ -710,7 +710,7 @@ form[action="/analyze"] .goal-option.disabled {
 
 .chat-input-area {
     display: flex;
-    gap: 10p;
+    gap: 10px;
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
@@ -750,7 +750,7 @@ form[action="/analyze"] .goal-option.disabled {
 }
 
 .ai-content p {
-    margin: 8px, 0;
+    margin: 8px 0;
 }
 
 .ai-content h1,
@@ -765,7 +765,7 @@ form[action="/analyze"] .goal-option.disabled {
     padding-left: 24px;
 }
 
-.ai-content coder {
+.ai-content code {
     padding: 2px 6px;
     border-radius: 6px;
     background-color: rgba(225, 255, 255, 0.08);

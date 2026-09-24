@@ -229,7 +229,6 @@
 
     </div>
 
-
     <div class="card">
     <h2>🗺️ Your Learning Roadmap</h2>
 
@@ -257,20 +256,15 @@
 
                     {% if stage["name"] == "Starting Point" %}
                         🚩
-
                     {% elif stage["name"] == "AI Engineer" %}
                         🤖
-
                     {% elif stage["name"] == current_stage["stage"] %}
                         ●
-
                     {% elif ns.stage_completed %}
                         ✓
-
                     {% else %}
                         ○
                     {% endif %}
-
                 </div>
 
                 <div class="roadmap-content">
@@ -291,7 +285,6 @@
 
                     {% endif %}
 
-
                     {% if stage["skills"] %}
 
                         <div class="roadmap-skills">
@@ -305,15 +298,10 @@
                             {% endfor %}
 
                         </div>
-
                     {% endif %}
-
                 </div>
-
             </div>
-
         {% endfor %}
-
     </div>
 </div>
     
@@ -351,8 +339,6 @@
             document.getElementById("learning-context").textContent
         );
 
-        console.log("Learning Context:", learningContext);
-
         function sendMessage() {
             const message = chatInput.value.trim();
 
@@ -361,7 +347,6 @@
             }
 
             const userMessage = document.createElement("div");
-
 
             userMessage.classList.add(
                 "chat-message",
@@ -451,8 +436,6 @@
 
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-
-
             })
             .catch(error => {
                 loadingMessage.remove();
@@ -480,7 +463,6 @@
         }
 
     sendButton.addEventListener("click", sendMessage);
-
 
     </script>
 
